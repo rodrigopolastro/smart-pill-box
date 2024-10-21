@@ -1,6 +1,6 @@
 <?php
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/pi3-monitoramento-saude/helpers/full-path.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/pi3-smart-pill-box/helpers/full-path.php';
 require_once fullPath('scripts/session-authentication.php');
 require_once fullPath('views/components/header.php');
 require_once fullPath('controllers/sensors-data.php');

@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/pi3-monitoramento-saude/helpers/full-path.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/pi3-smart-pill-box/helpers/full-path.php';
 require_once fullPath('models/users.php');
 
 if (!isset($_SESSION)) {
@@ -16,7 +16,7 @@ function controllerUsers($action)
             $existing_user = getUserByEmail($_POST['email']);
             if ($existing_user) {
                 $query_string = '?sign_up_status=already_registered';
-                header("Location: /pi3-monitoramento-saude/views/pages/sign-up.php" . $query_string);
+                header("Location: /pi3-smart-pill-box/views/pages/sign-up.php" . $query_string);
                 exit();
             } else {
                 $user = [
@@ -45,7 +45,7 @@ function controllerUsers($action)
                     echo $exception->getMessage();
                 }
 
-                header("Location: /pi3-monitoramento-saude/views/pages/list-medicines.php");
+                header("Location: /pi3-smart-pill-box/views/pages/list-medicines.php");
                 exit();
             }
             break;
@@ -59,18 +59,18 @@ function controllerUsers($action)
                 $_SESSION['user_first_name'] = $user['first_name'];
                 $_SESSION['user_last_name']  = $user['last_name'];
 
-                header('Location: /pi3-monitoramento-saude/views/pages/list-medicines.php');
+                header('Location: /pi3-smart-pill-box/views/pages/list-medicines.php');
                 exit();
             } else {
                 $query_string = '?login_status=incorrect_info';
-                header('Location: /pi3-monitoramento-saude/views/pages/login.php' . $query_string);
+                header('Location: /pi3-smart-pill-box/views/pages/login.php' . $query_string);
             }
             break;
 
         case 'logout':
             session_unset();
             session_destroy();
-            header('Location: /pi3-monitoramento-saude/views/pages/login.php');
+            header('Location: /pi3-smart-pill-box/views/pages/login.php');
             exit();
             break;
     }

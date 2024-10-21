@@ -1,8 +1,8 @@
 <?php
 require_once fullPath('vendor/autoload.php');
-require_once fullPath('sendgrid-credentials.php');
+// require_once fullPath('sendgrid-credentials.php');
 
-use \SendGrid\Mail\Mail;
+// use \SendGrid\Mail\Mail;
 
 if (!isset($_SESSION)) {
     session_start();
@@ -63,7 +63,7 @@ function analyzeSensorData($timestamp, $sensors)
 
     foreach ($alerts as $key => $array) {
         if ($array['alert']) {
-            sendAlert($timestamp, $sensors, $alerts);
+            // sendAlert($timestamp, $sensors, $alerts);
             return true;
             break;
         }
@@ -74,32 +74,32 @@ function analyzeSensorData($timestamp, $sensors)
 function sendAlert($timestamp, $sensors, $alerts)
 {
     // The emails should be sent asynchronously maybe with javascript
-    $email = new Mail();
-    $email->setFrom(EMAIL_SENDER, 'Monitoramento de Saúde');
-    $email->setSubject('ALERTA - Sinais Vitais Preocupantes!');
-    $email->addTo($_SESSION['companion_user_email'], '');
+    // $email = new Mail();
+    // $email->setFrom(EMAIL_SENDER, 'Monitoramento de Saúde');
+    // $email->setSubject('ALERTA - Sinais Vitais Preocupantes!');
+    // $email->addTo($_SESSION['companion_user_email'], '');
 
-    $formatted_time = DateTimeImmutable::createFromFormat(
-        'Y-m-d H:i:s',
-        $timestamp,
-        new DateTimeZone('America/Sao_Paulo')
-    );
+    // $formatted_time = DateTimeImmutable::createFromFormat(
+    //     'Y-m-d H:i:s',
+    //     $timestamp,
+    //     new DateTimeZone('America/Sao_Paulo')
+    // );
 
-    $email_content =
-        "<p> Os sinais vitais de <strong>" .  $_SESSION['user_first_name'] .  $_SESSION['user_last_name'] . "</strong> atingiram níveis preocupantes </p>" .
-        "<h1> Sinais Vitais: </h1>" .
-        "<h3>Captura realizada em " . $formatted_time->format("d/m/Y") . ' às ' . $formatted_time->format("H:i:s") . '</h3>' .
-        "<p><strong>Batimentos Cardíacos: </strong>" . $sensors['heart_rate'] . ' BPM - ' . $alerts['heart_rate']['message'] . "</p>" .
-        "<p><strong>Temperatura Corporal: </strong>" . $sensors['body_temperature'] . '°C - ' . $alerts['body_temperature']['message'] . "</p>" .
-        "<p><strong>Oxigênio no Sangue: </strong>" . $sensors['blood_oxygen'] . '% - ' . $alerts['blood_oxygen']['message'] . "</p>" .
-        "<p><strong>Pressão Sanguínea: </strong>" . $sensors['blood_pressure'] . ' mmHg - ' . $alerts['blood_pressure']['message'] . "</p>";
+    // $email_content =
+    //     "<p> Os sinais vitais de <strong>" .  $_SESSION['user_first_name'] .  $_SESSION['user_last_name'] . "</strong> atingiram níveis preocupantes </p>" .
+    //     "<h1> Sinais Vitais: </h1>" .
+    //     "<h3>Captura realizada em " . $formatted_time->format("d/m/Y") . ' às ' . $formatted_time->format("H:i:s") . '</h3>' .
+    //     "<p><strong>Batimentos Cardíacos: </strong>" . $sensors['heart_rate'] . ' BPM - ' . $alerts['heart_rate']['message'] . "</p>" .
+    //     "<p><strong>Temperatura Corporal: </strong>" . $sensors['body_temperature'] . '°C - ' . $alerts['body_temperature']['message'] . "</p>" .
+    //     "<p><strong>Oxigênio no Sangue: </strong>" . $sensors['blood_oxygen'] . '% - ' . $alerts['blood_oxygen']['message'] . "</p>" .
+    //     "<p><strong>Pressão Sanguínea: </strong>" . $sensors['blood_pressure'] . ' mmHg - ' . $alerts['blood_pressure']['message'] . "</p>";
 
-    $email->addContent('text/html', $email_content);
+    // $email->addContent('text/html', $email_content);
 
-    $sendgrid = new \SendGrid(SENDGRID_API_KEY);
-    try {
-        $response = $sendgrid->send($email);
-    } catch (Exception $e) {
-        echo 'Caught exception: ' . $e->getMessage() . "\n";
-    }
+    // $sendgrid = new \SendGrid(SENDGRID_API_KEY);
+    // try {
+    //     $response = $sendgrid->send($email);
+    // } catch (Exception $e) {
+    //     echo 'Caught exception: ' . $e->getMessage() . "\n";
+    // }
 }

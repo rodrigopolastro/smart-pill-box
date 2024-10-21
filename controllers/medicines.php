@@ -1,6 +1,6 @@
 <?php
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/pi3-monitoramento-saude/helpers/full-path.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/pi3-smart-pill-box/helpers/full-path.php';
 require_once fullPath('models/medicines.php');
 
 define('HOURS_IN_A_DAY', 24);
@@ -56,9 +56,9 @@ function controllerMedicines($action)
                     $var_name = 'dose_time_' . $i;
                     $query_string .= '&dose_time_' . $i . '=' . $_POST[$var_name];
                 }
-                header('Location: /pi3-monitoramento-saude/controllers/doses.php' . $query_string);
+                header('Location: /pi3-smart-pill-box/controllers/doses.php' . $query_string);
             } else {
-                header('Location: /pi3-monitoramento-saude/views/pages/list-medicines.php');
+                header('Location: /pi3-smart-pill-box/views/pages/list-medicines.php');
                 exit();
             }
 

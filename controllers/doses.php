@@ -1,6 +1,6 @@
 <?php
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/pi3-monitoramento-saude/helpers/full-path.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/pi3-smart-pill-box/helpers/full-path.php';
 require_once fullPath('models/doses.php');
 require_once fullPath('scripts/schedule-dose-reminder.php');
 
@@ -95,7 +95,7 @@ function controllerDoses($action)
                     scheduleDoseReminder($dose);
                 }
             }
-            header('Location: /pi3-monitoramento-saude/views/pages/list-medicines.php');
+            header('Location: /pi3-smart-pill-box/views/pages/list-medicines.php');
             exit();
             break;
 
