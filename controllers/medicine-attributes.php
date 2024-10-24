@@ -9,7 +9,7 @@
 
 <?php
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/pi3-smart-pill-box/helpers/full-path.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/smart-pill-box/helpers/full-path.php';
 require_once fullPath('models/medicine-attributes.php');
 
 if (isset($_POST['action'])) {
