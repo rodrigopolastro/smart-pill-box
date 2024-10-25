@@ -1,118 +1,78 @@
-DROP DATABASE IF EXISTS health_monitoring;
-CREATE DATABASE health_monitoring;
-USE health_monitoring;
+DROP DATABASE IF EXISTS smart_pill_box;
+CREATE DATABASE smart_pill_box;
+USE smart_pill_box;
 
--- ---------------------------------------------
-
-CREATE TABLE Medicine_Types (
-    medicine_type_id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    medicine_type_name VARCHAR(50) NOT NULL UNIQUE,
-    portuguese_name VARCHAR(50) NOT NULL UNIQUE
+CREATE TABLE NURSING_HOMES (
+    NSH_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    NSH_email VARCHAR(100) NOT NULL,
+    NSH_password VARCHAR(30) NOT NULL,
+    NSH_created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP()
 );
 
-INSERT INTO Medicine_Types (medicine_type_name, portuguese_name) VALUES
-('liquid', 'líquido'),
-('pill', 'comprimido'),
-('ointment', 'pomada');
+CREATE TABLE PEOPLE_IN_CARE (
+    PIC_id integer PRIMARY KEY AUTO_INCREMENT,
+    PIC_nursing_home_id INTEGER NOT NULL,
+    PIC_first_name VARCHAR(30) NOT NULL,
+    PIC_last_name VARCHAR(100)  NOT NULL,
+    PIC_height INTEGER,
+    PIC_weight INTEGER,
+    PIC_allergies VARCHAR(200),
+    PIC_notes VARCHAR(500),
+    PIC_created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
 
--- ---------------------------------------------
-
-CREATE TABLE Frequency_Types (
-    frequency_type_id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    frequency_type_name VARCHAR(50) NOT NULL UNIQUE,
-    portuguese_name VARCHAR(50) NOT NULL UNIQUE
+    CONSTRAINT CHK_PEOPLE_IN_CARE_height CHECK (PIC_height > 0),
+    CONSTRAINT CHK_PEOPLE_IN_CARE_weight CHECK (PIC_weight > 0),
+    CONSTRAINT FK_NURSING_HOMES_PEOPLE_IN_CARE
+        FOREIGN KEY (PIC_nursing_home_id)
+        REFERENCES NURSING_HOMES (NSH_id)
+        ON DELETE CASCADE
 );
 
-INSERT INTO Frequency_Types (frequency_type_name, portuguese_name) VALUES
-('daily', 'diário'),
-('weekly', 'semanal'),
-('monthly', 'mensal'),
-('days_interval', 'intervalo de dias');
+CREATE TABLE MEDICINES (
+    MED_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    MED_name VARCHAR(100) NOT NULL,
+    MED_description VARCHAR(300),
+    MED_pills_per_package INTEGER NOT NULL,
+    MED_price FLOAT,
 
--- ---------------------------------------------
-
-CREATE TABLE Measurement_Units (
-    measurement_unit_id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    measurement_unit_name VARCHAR(50) NOT NULL UNIQUE,
-    portuguese_name VARCHAR(50) NOT NULL UNIQUE
+    CONSTRAINT CHK_MEDICINES_pills_per_package CHECK (MED_pills_per_package > 0)
 );
 
--- Create singular and plural portuguese names
-INSERT INTO Measurement_Units (measurement_unit_name, portuguese_name) VALUES
-('mL', 'mL'),
-('drops', 'gotas'),
-('pills', 'comprimidos');
-
--- ---------------------------------------------
-
-CREATE TABLE Users (
-    user_id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    user_email VARCHAR(50) UNIQUE NOT NULL,
-    user_password VARCHAR(100) NOT NULL,
-    first_name VARCHAR(30) NOT NULL,
-    last_name VARCHAR(50) NOT NULL,
-    created_at TIMESTAMP
-);
-
--- ---------------------------------------------
-
-CREATE TABLE Companion_Users (
-    companion_user_id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    monitored_user_id INTEGER NOT NULL,
-    user_email VARCHAR(50) UNIQUE NOT NULL,
-    first_name VARCHAR(30) NOT NULL,
-    last_name VARCHAR(50) NOT NULL,
-    created_at TIMESTAMP,
-
-    FOREIGN KEY (monitored_user_id)
-    REFERENCES Users (user_id)
-    ON DELETE RESTRICT
-);
-
--- ---------------------------------------------
-
-CREATE TABLE Medicines (
-    medicine_id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    user_id INTEGER NOT NULL,
-    medicine_type_id INTEGER NOT NULL,
-    frequency_type_id INTEGER NOT NULL,
-    measurement_unit_id INTEGER NOT NULL,
-    medicine_name VARCHAR(100) NOT NULL,
-    medicine_description VARCHAR(300),
-    doses_per_day INTEGER NOT NULL,
-    quantity_per_dose INTEGER NOT NULL,
-    treatment_start_date DATE NOT NULL,
-    total_usage_days INTEGER NOT NULL,
-
-    FOREIGN KEY (user_id)
-    REFERENCES Users (user_id)
-    ON DELETE CASCADE,
-
-    FOREIGN KEY (medicine_type_id)
-    REFERENCES Medicine_Types (medicine_type_id)
-    ON DELETE RESTRICT,
- 
-    FOREIGN KEY (frequency_type_id)
-    REFERENCES Frequency_Types (frequency_type_id)
-    ON DELETE RESTRICT,
- 
-    FOREIGN KEY (measurement_unit_id)
-    REFERENCES Measurement_Units (measurement_unit_id)
-    ON DELETE RESTRICT
-);
-
--- ---------------------------------------------
-
-CREATE TABLE Doses (
-    dose_id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    medicine_id INTEGER NOT NULL,
-    due_date DATE NOT NULL,
-    due_time TIME NOT NULL,
-    taken_date DATE,
-    taken_time TIME,
-    was_taken BOOLEAN NOT NULL,
+CREATE TABLE TREATMENT (
+    TTM_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    TTM_person_id INTEGER NOT NULL,
+    TTM_medicine_id INTEGER NOT NULL,
+    TTM_start_date DATE NOT NULL,
+    TTM_doses_per_day INTEGER NOT NULL,
+    TTM_pills_per_dose INTEGER NOT NULL,
+    TTM_total_usage_days INTEGER NOT NULL,
     
-    FOREIGN KEY (medicine_id)
-    REFERENCES Medicines (medicine_id)
-    ON DELETE CASCADE
+    CONSTRAINT CHK_TREATMENT_doses_per_day CHECK (TTM_doses_per_day > 0),
+    CONSTRAINT CHK_TREATMENT_pills_per_dose CHECK (TTM_pills_per_dose > 0),
+    CONSTRAINT CHK_TREATMENT_total_usage_days 
+        CHECK (TTM_total_usage_days > 0 OR TTM_total_usage_days = -1), 
+
+	    
+    CONSTRAINT FK_PEOPLE_IN_CARE_TREATMENT
+        FOREIGN KEY (TTM_person_id)
+        REFERENCES PEOPLE_IN_CARE (PIC_id)
+        ON DELETE RESTRICT,
+ 
+    CONSTRAINT FK_MEDICINES_TREATMENT
+        FOREIGN KEY (TTM_medicine_id)
+        REFERENCES MEDICINES (MED_id)
+        ON DELETE RESTRICT
 );
+
+CREATE TABLE DOSES (
+    DOS_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    DOS_treatment_id INTEGER NOT NULL,
+    DOS_due_datetime TIMESTAMP NOT NULL,
+    DOS_taken_datetime TIMESTAMP NULL DEFAULT NULL,
+    DOS_was_taken BOOLEAN DEFAULT 0 NOT NULL,
+
+    CONSTRAINT FK_TREATMENT_DOSES
+        FOREIGN KEY (DOS_treatment_id)
+        REFERENCES TREATMENT (TTM_id)
+        ON DELETE CASCADE
+); 
