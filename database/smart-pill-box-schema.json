@@ -1,0 +1,22 @@
+[
+    {
+        "person_id": 1,
+        "status": "active",
+        "slots": [
+            {
+                "label": "A",
+                "medicine_id": 1,
+                "quantity": 8,
+                "need_refill": true
+            },
+            {
+                "label": "B",
+                "medicine_id": 2,
+                "quantity": 10,
+                "need_refill": false
+            },
+            { }
+        ]
+    },
+    { }
+]
