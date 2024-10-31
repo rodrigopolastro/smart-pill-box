@@ -6,7 +6,7 @@ CREATE TABLE NURSING_HOMES (
     NSH_id INTEGER PRIMARY KEY AUTO_INCREMENT,
     NSH_email VARCHAR(100) NOT NULL,
     NSH_password VARCHAR(30) NOT NULL,
-    NSH_created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP()
+    NSH_registered_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP()
 );
 
 CREATE TABLE PEOPLE_IN_CARE (
@@ -14,11 +14,12 @@ CREATE TABLE PEOPLE_IN_CARE (
     PIC_nursing_home_id INTEGER NOT NULL,
     PIC_first_name VARCHAR(30) NOT NULL,
     PIC_last_name VARCHAR(100)  NOT NULL,
+    PIC_birth_date DATE,
     PIC_height INTEGER,
     PIC_weight INTEGER,
     PIC_allergies VARCHAR(200),
     PIC_notes VARCHAR(500),
-    PIC_created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+    PIC_registered_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
 
     CONSTRAINT CHK_PEOPLE_IN_CARE_height CHECK (PIC_height > 0),
     CONSTRAINT CHK_PEOPLE_IN_CARE_weight CHECK (PIC_weight > 0),
@@ -42,11 +43,20 @@ CREATE TABLE TREATMENT (
     TTM_id INTEGER PRIMARY KEY AUTO_INCREMENT,
     TTM_person_id INTEGER NOT NULL,
     TTM_medicine_id INTEGER NOT NULL,
+    TTM_usage_frequency VARCHAR(30) NOT NULL,
     TTM_start_date DATE NOT NULL,
     TTM_doses_per_day INTEGER NOT NULL,
     TTM_pills_per_dose INTEGER NOT NULL,
     TTM_total_usage_days INTEGER NOT NULL,
     
+    CONSTRAINT CHK_TREATMENT_usage_frequency 
+        CHECK (TTM_usage_frequency IN (
+            'daily',
+            'weekly',
+            'monthly',
+            'days_interval'
+        )
+    ),
     CONSTRAINT CHK_TREATMENT_doses_per_day CHECK (TTM_doses_per_day > 0),
     CONSTRAINT CHK_TREATMENT_pills_per_dose CHECK (TTM_pills_per_dose > 0),
     CONSTRAINT CHK_TREATMENT_total_usage_days 
@@ -75,4 +85,4 @@ CREATE TABLE DOSES (
         FOREIGN KEY (DOS_treatment_id)
         REFERENCES TREATMENT (TTM_id)
         ON DELETE CASCADE
-); 
+);
