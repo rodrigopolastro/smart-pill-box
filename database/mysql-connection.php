@@ -3,7 +3,7 @@
 $server = "localhost";
 $user = "root";
 $password = "";
-$database = "health_monitoring";
+$database = "smart_pill_box";
 
 try {
     $connection = new PDO(

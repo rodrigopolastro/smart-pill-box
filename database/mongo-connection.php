@@ -7,7 +7,7 @@ $connection_str = 'mongodb://localhost:27017';
 $client = new MongoDB\Client($connection_str);
 
 try {
-    $db = $client->selectDatabase('health_monitoring');
+    $db = $client->selectDatabase('smart_pill_box');
     $sensors_data_collection = $db->selectCollection('sensors_data');
 } catch (Exception $e) {
     printf($e->getMessage());
