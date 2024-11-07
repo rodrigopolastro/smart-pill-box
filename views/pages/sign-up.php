@@ -12,8 +12,8 @@
 <body>
     <main>
         <section class="">
-            <div class="container py-5">
-                <div class="d-flex justify-content-center align-items-center">
+            <div class="container">
+                <div class="vh-100 d-flex justify-content-center align-items-center">
                     <div class="w-50 bg-white p-5 rounded-3">
                         <h1 class="mb-3">Cadastre-se</h1>
                         <form action="../../controllers/nursing-homes.php" method="POST" id="sign-up-form">
@@ -26,14 +26,14 @@
                                 <label for="txtEmail" class="form-label">E-mail</label>
                                 <input type="email" id="txtEmail" name="email" class="form-control" required>
                             </div>
-                            <div class="mb-5">
+                            <div class="mb-3">
                                 <label for="txtPassword" class="form-label">Senha</label>
                                 <input type="password" id="txtPassword" name="password" class="form-control" required>
                             </div>
                             <input type="submit" value="Cadastrar" class="btn btn-primary">
                         </form>
                         <?php if (isset($_GET['sign_up_status']) && $_GET['sign_up_status'] == 'already_registered') : ?>
-                            <p id="errorMessage">Casa de Repouso já cadastrada!</p>
+                            <p id="errorMessage" class="mt-3 fw-bold">Casa de Repouso já cadastrada!</p>
                         <?php endif; ?>
                         <div class="d-flex justify-content-end">
                             <p>Já possui uma conta? <a href="./login.php" class="text-primary">Entre</a></p>

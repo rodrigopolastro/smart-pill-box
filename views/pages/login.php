@@ -13,7 +13,7 @@
     <main>
         <section>
             <div class="container ">
-                <div class="vh-100  d-flex justify-content-center align-items-center">
+                <div class="vh-100 d-flex justify-content-center align-items-center">
                     <div class="w-50 bg-white p-5 rounded-3">
                         <h1 class="mb-3">Faça Login</h1>
                         <form action="../../controllers/nursing-homes.php" method="POST" id="login-form">
@@ -29,7 +29,7 @@
                             <input type="submit" value="Entrar" class="btn btn-primary">
                         </form>
                         <?php if (isset($_GET['login_status']) && $_GET['login_status'] == 'incorrect_info') : ?>
-                            <p id="errorMessage">Email ou Senha incorretos!</p>
+                            <p id="errorMessage" class="mt-3 fw-bold">Email ou Senha incorretos!</p>
                         <?php endif; ?>
                         <div class="d-flex justify-content-end">
                             <p>Não possui uma conta? <a href="./sign-up.php" class="text-primary">Cadastre-se</a></p>
