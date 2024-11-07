@@ -19,8 +19,13 @@ if (isset($jsonRequest['people_in_care_action'])) {
 function controllerPeopleInCare($peopleInCareAction, $params = [])
 {
     switch ($peopleInCareAction) {
-        case 'get_people_in_care':
-            $peopleInCare = selectPeopleInCare($_SESSION['logged_nursing_home_id']);
+        case 'get_person_in_care':
+            $personInCare = selectPersonInCare($params['person_in_care_id']);
+            return $personInCare;
+            break;
+
+        case 'get_all_people_in_care':
+            $peopleInCare = selectAllPeopleInCare($_SESSION['logged_nursing_home_id']);
             return $peopleInCare;
             break;
 

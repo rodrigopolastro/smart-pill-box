@@ -1,7 +1,32 @@
 <?php
 require_once fullPath('database/mysql-connection.php');
 
-function selectPeopleInCare($nursingHomeId)
+function selectPersonInCare($personInCareId)
+{
+    global $connection;
+    $sql = $connection->prepare(
+        "SELECT 
+            PIC_id,
+            PIC_nursing_home_id,  
+            PIC_first_name,
+            PIC_last_name, 
+            PIC_birth_date,
+            PIC_height, 
+            PIC_weight, 
+            PIC_allergies,
+            PIC_notes 
+        FROM PEOPLE_IN_CARE
+        WHERE PIC_id = :person_in_care_id;"
+    );
+
+    $sql->bindValue(':person_in_care_id', $personInCareId);
+    $sql->execute();
+
+    $personInCare = $sql->fetch(PDO::FETCH_ASSOC);
+    return $personInCare;
+}
+
+function selectAllPeopleInCare($nursingHomeId)
 {
     global $connection;
     $sql = $connection->prepare(
