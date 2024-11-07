@@ -19,8 +19,8 @@
                         <form action="../../controllers/nursing-homes.php" method="POST" id="sign-up-form">
                             <input type="hidden" name="nursing_homes_action" value="sign_up">
                             <div class="mb-3">
-                                <label for="txtFirstName" class="form-label">Nome da Casa de Repouso</label>
-                                <input type="text" id="txtFirstName" name="company_name" class="form-control" required>
+                                <label for="txtCompanyName" class="form-label">Nome da Casa de Repouso</label>
+                                <input type="text" id="txtCompanyName" name="company_name" class="form-control" required>
                             </div>
                             <div class="mb-3">
                                 <label for="txtEmail" class="form-label">E-mail</label>

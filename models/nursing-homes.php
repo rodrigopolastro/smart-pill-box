@@ -1,8 +1,7 @@
 <?php
-
 require_once fullPath('database/mysql-connection.php');
 
-function getNursingHomeByEmail($nursing_home_email)
+function selectNursingHomeByEmail($nursingHomeEmail)
 {
     global $connection;
     $statement = $connection->prepare(
@@ -15,14 +14,14 @@ function getNursingHomeByEmail($nursing_home_email)
        WHERE NSH_email = :email"
     );
 
-    $statement->bindValue(':email', $nursing_home_email);
+    $statement->bindValue(':email', $nursingHomeEmail);
     $statement->execute();
 
-    $nursing_home = $statement->fetch(PDO::FETCH_ASSOC);
-    return $nursing_home;
+    $nursingHome = $statement->fetch(PDO::FETCH_ASSOC);
+    return $nursingHome;
 }
 
-function createNursingHome($nursing_home)
+function insertNursingHome($nursingHome)
 {
     global $connection;
     $statement = $connection->prepare(
@@ -37,9 +36,9 @@ function createNursingHome($nursing_home)
         )"
     );
 
-    $statement->bindValue(':email', $nursing_home['email']);
-    $statement->bindValue(':password', $nursing_home['password']);
-    $statement->bindValue(':company_name', $nursing_home['company_name']);
+    $statement->bindValue(':email', $nursingHome['email']);
+    $statement->bindValue(':password', $nursingHome['password']);
+    $statement->bindValue(':company_name', $nursingHome['company_name']);
     $statement->execute();
 
     return $connection->lastInsertId();
