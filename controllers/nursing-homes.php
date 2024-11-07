@@ -7,43 +7,48 @@ if (!isset($_SESSION)) {
 }
 
 if (isset($_POST['nursing_homes_action'])) {
-    $params = $_POST['params'] ?? [];
-    nursingHomesController($_POST['nursing_homes_action'], $params);
+    $params = $_POST ?? [];
+    nursingHomesController($params['nursing_homes_action'], $params);
 }
 
 function nursingHomesController($nursingHomesAction, $params = [])
 {
     switch ($nursingHomesAction) {
         case 'sign_up':
-            $nursing_home = getNursingHomeByEmail($_POST['email']);
+            $nursing_home = getNursingHomeByEmail($params['email']);
             if ($nursing_home) {
                 $query_string = '?sign_up_status=already_registered';
                 header("Location: /smart-pill-box/views/pages/sign-up.php" . $query_string);
                 exit();
             } else {
                 $nursing_home = [
-                    'email'    => $_POST['email'],
-                    'password' => $_POST['password'],
-                    'company_name' => $_POST['company_name']
+                    'email'    => $params['email'],
+                    'password' => $params['password'],
+                    'company_name' => $params['company_name']
                 ];
                 try {
-                    $nursing_home['id'] = createNursingHome($nursing_home);
-                    $_SESSION['logged_nursing_home'] = $nursing_home;
+                    $nursingHomeId = createNursingHome($nursing_home);
+                    $_SESSION['logged_nursing_home_id'] = $nursingHomeId;
+                    $_SESSION['logged_nursing_home_email'] = $nursing_home['email'];
+                    $_SESSION['logged_nursing_home_password'] = $nursing_home['password'];
+                    $_SESSION['logged_nursing_home_company_name'] = $nursing_home['company_name'];
+                    header("Location: /smart-pill-box/views/pages/overview.php");
+                    exit();
                 } catch (PDOException $exception) {
                     echo $exception->getMessage();
                 }
-
-                header("Location: /smart-pill-box/views/pages/list-medicines.php");
-                exit();
             }
             break;
 
         case 'login':
-            $nursing_home = getNursingHomeByEmail($_POST['email']);
+            $nursing_home = getNursingHomeByEmail($params['email']);
             print_r($nursing_home);
-            print_r($_POST);
-            if ($nursing_home && $nursing_home['NSH_password'] == trim($_POST['password'])) {
-                $_SESSION['logged_nursing_home'] = $nursing_home;
+            print_r($params);
+            if ($nursing_home && $nursing_home['NSH_password'] == trim($params['password'])) {
+                $_SESSION['logged_nursing_home_id'] = $nursing_home['NSH_id'];
+                $_SESSION['logged_nursing_home_email'] = $nursing_home['NSH_email'];
+                $_SESSION['logged_nursing_home_password'] = $nursing_home['NSH_password'];
+                $_SESSION['logged_nursing_home_company_name'] = $nursing_home['NSH_company_name'];
                 header('Location: /smart-pill-box/views/pages/overview.php');
                 exit();
             } else {

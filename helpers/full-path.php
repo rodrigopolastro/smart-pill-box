@@ -1,9 +1,15 @@
 <?php
 
-function fullPath($file_path = "")
+function fullPath($file_path = "", $useWebPath = false)
 {
+    if ($useWebPath) {
+        $root = '/'; #localhost/
+    } else {
+        $root = $_SERVER['DOCUMENT_ROOT'] . '/';
+    }
+
     $full_path =
-        $_SERVER['DOCUMENT_ROOT'] . '/' .
+        $root .
         'smart-pill-box' . '/' .
         $file_path;
 

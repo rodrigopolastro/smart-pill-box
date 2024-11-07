@@ -29,7 +29,7 @@
                             <input type="submit" value="Entrar" class="btn btn-primary">
                         </form>
                         <?php if (isset($_GET['login_status']) && $_GET['login_status'] == 'incorrect_info') : ?>
-                            <p id="errorMessage">Usuário ou Senha incorretos!</p>
+                            <p id="errorMessage">Email ou Senha incorretos!</p>
                         <?php endif; ?>
                         <div class="d-flex justify-content-end">
                             <p>Não possui uma conta? <a href="./sign-up.php" class="text-primary">Cadastre-se</a></p>
