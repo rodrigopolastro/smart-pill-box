@@ -10,15 +10,20 @@ $jsonRequest = json_decode(file_get_contents('php://input'), true);
 
 if (isset($jsonRequest['people_in_care_action'])) {
     $params = $jsonRequest['params'] ?? [];
-    echo json_encode(controllerHorariosFatec($jsonRequest['people_in_care_action'], $params));
+    echo json_encode(controllerPeopleInCare($jsonRequest['people_in_care_action'], $params));
 } else if (isset($_POST['people_in_care_action'])) {
     $params = $_POST ?? [];
-    echo json_encode(controllerHorariosFatec($_POST['people_in_care_action'], $params));
+    echo json_encode(controllerPeopleInCare($_POST['people_in_care_action'], $params));
 }
 
-function controllerHorariosFatec($peopleInCareAction, $params = [])
+function controllerPeopleInCare($peopleInCareAction, $params = [])
 {
     switch ($peopleInCareAction) {
+        case 'get_people_in_care':
+            $peopleInCare = selectPeopleInCare($_SESSION['logged_nursing_home_id']);
+            return $peopleInCare;
+            break;
+
         case 'create_person_in_care':
             $personInCare = [
                 'nursing_home_id' => $_SESSION['logged_nursing_home_id'],

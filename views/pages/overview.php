@@ -6,4 +6,6 @@ require_once fullPath('scripts/session-authentication.php');
 require_once fullPath('views/components/header.php');
 ?>
 
-overview aqui
+<div>
+    <a href="./people-in-care.php">Pessoas sob Cuidado</a>
+</div>
