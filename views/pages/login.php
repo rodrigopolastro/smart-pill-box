@@ -16,8 +16,8 @@
                 <div class="vh-100  d-flex justify-content-center align-items-center">
                     <div class="w-50 bg-white p-5 rounded-3">
                         <h1 class="mb-3">Faça Login</h1>
-                        <form action="../../controllers/users.php" method="POST" id="login-form">
-                            <input type="hidden" name="action" value="login">
+                        <form action="../../controllers/nursing-homes.php" method="POST" id="login-form">
+                            <input type="hidden" name="nursing_homes_action" value="login">
                             <div class="mb-3">
                                 <label for="txtEmail" class="form-label">E-mail</label>
                                 <input type="email" id="txtEmail" name="email" class="form-control bg-grey">

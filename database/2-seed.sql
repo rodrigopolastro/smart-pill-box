@@ -1,5 +1,5 @@
 INSERT INTO NURSING_HOMES (
-    NSH_name,
+    NSH_company_name,
     NSH_email,
     NSH_password
 ) VALUES (

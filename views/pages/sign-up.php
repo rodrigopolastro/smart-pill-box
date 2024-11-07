@@ -16,7 +16,7 @@
                 <div class="d-flex justify-content-center align-items-center">
                     <div class="w-50 bg-white p-5 rounded-3">
                         <h1 class="mb-3 text-center">Cadastre-se</h1>
-                        <form action="../../controllers/users.php" method="POST" id="sign-up-form">
+                        <form action="../../controllers/nursing-homes.php" method="POST" id="sign-up-form">
                             <h3>Meus Dados</h3>
                             <input type="hidden" name="action" value="sign_up">
                             <div class="mb-3">

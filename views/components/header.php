@@ -7,7 +7,7 @@
     <link href="../../assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="../../assets/css/general.css" rel="stylesheet">
     <title>Sistema de Monitoramento Remoto de Saúde</title>
-</head> 
+</head>
 
 <body>
     <header class="d-block p-5 text-white">
@@ -29,9 +29,9 @@
                 <!-- Botao logout -->
                 <div class="d-flex">
                     <div class="me-3 d-flex align-items-center">
-                        <span><?=$_SESSION['user_first_name']?> <?=$_SESSION['user_last_name']?></span>
+                        <span><?= $_SESSION['logged_nursing_home']['NSH_company_name'] ?></span>
                     </div>
-                    <form method="POST" action="../../controllers/users.php">
+                    <form method="POST" action="../../controllers/nursing-homes.php">
                         <input type="hidden" name="action" value="logout">
                         <input type="submit" value="Sair" class="btn btn-light">
                     </form>

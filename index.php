@@ -1,4 +1,4 @@
 <?php
 
-header('Location: ./views/pages/list-medicines.php');
+header('Location: ./views/pages/overview.php');
 exit();
