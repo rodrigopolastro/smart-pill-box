@@ -36,7 +36,7 @@ function controllerPeopleInCare($peopleInCareAction, $params = [])
                 'notes'           => $params['notes']
             ];
             insertPersonInCare($personInCare);
-            header('Location: /smart-pill-box/views/pages/overview.php');
+            header('Location: /smart-pill-box/views/pages/people-in-care.php');
             break;
 
         default:

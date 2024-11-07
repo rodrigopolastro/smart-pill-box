@@ -18,8 +18,9 @@
                 </div>
                 <div class="">
                     <ul class="nav me-lg-auto mb-2 justify-content-center mb-md-0">
-                        <li class="me-4"><a href="./list-medicines.php" class="btn btn-primary  px-3 text-white">Medicamentos</a></li><!--*******MUNDANÇA DE CAMINHO*****-->
-                        <li><a href="./health-monitoring.php" class="btn btn-primary px-3 text-white">Histórico</a></li><!--*******MUNDANÇA DE CAMINHO*****-->
+                        <li class="me-4">
+                            <a href="./overview.php" class="btn btn-primary px-3 text-white">Overview</a>
+                        </li>
                     </ul>
                 </div>
                 <div class="d-flex">
