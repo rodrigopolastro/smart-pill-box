@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../../assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="../../assets/css/general.css" rel="stylesheet">
-    <title>Sistema de Monitoramento Remoto de Saúde</title>
+    <title><?= $pageTitle ?? 'Sistema de Monitoramento Remoto de Saúde' ?></title>
 </head>
 
 <body>
