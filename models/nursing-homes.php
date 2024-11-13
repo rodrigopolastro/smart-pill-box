@@ -1,5 +1,5 @@
 <?php
-require_once fullPath('database/mysql-connection.php');
+require_once fullPath('database/mysql/connection.php');
 
 function selectNursingHomeByEmail($nursingHomeEmail)
 {
