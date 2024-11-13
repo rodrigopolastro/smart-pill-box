@@ -34,10 +34,10 @@ CREATE TABLE MEDICINES (
     MED_id INTEGER PRIMARY KEY AUTO_INCREMENT,
     MED_name VARCHAR(100) NOT NULL,
     MED_description VARCHAR(300),
-    MED_pills_per_package INTEGER NOT NULL,
+    MED_quantity_pills INTEGER NOT NULL,
     MED_price FLOAT,
 
-    CONSTRAINT CHK_MEDICINES_pills_per_package CHECK (MED_pills_per_package > 0)
+    CONSTRAINT CHK_MEDICINES_quantity_pills CHECK (MED_quantity_pills > 0)
 );
 
 CREATE TABLE TREATMENT (
