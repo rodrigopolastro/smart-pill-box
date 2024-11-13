@@ -1,11 +1,10 @@
 <?php
-
 require_once $_SERVER['DOCUMENT_ROOT'] . '/smart-pill-box/helpers/full-path.php';
 require_once fullPath('scripts/session-authentication.php');
 require_once fullPath('helpers/calc-age.php');
 require_once fullPath('controllers/people-in-care.php');
 
-$personInCare = controllerPeopleInCare(
+$personInCare = peopleInCareController(
     'get_person_in_care',
     ['person_in_care_id' => $_GET['id']]
 );

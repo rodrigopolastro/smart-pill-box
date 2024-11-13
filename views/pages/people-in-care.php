@@ -7,7 +7,7 @@ require_once fullPath('helpers/calc-age.php');
 require_once fullPath('controllers/people-in-care.php');
 require_once fullPath('views/components/header.php');
 
-$peopleInCare = controllerPeopleInCare('get_all_people_in_care');
+$peopleInCare = peopleInCareController('get_all_people_in_care');
 ?>
 
 <div class="container">

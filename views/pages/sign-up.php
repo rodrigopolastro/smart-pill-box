@@ -18,6 +18,7 @@
                         <h1 class="mb-3">Cadastre-se</h1>
                         <form action="../../controllers/nursing-homes.php" method="POST" id="sign-up-form">
                             <input type="hidden" name="nursing_homes_action" value="sign_up">
+                            <input type="hidden" name="do_redirect" value="true">
                             <div class="mb-3">
                                 <label for="txtCompanyName" class="form-label">Nome da Casa de Repouso</label>
                                 <input type="text" id="txtCompanyName" name="company_name" class="form-control" required>

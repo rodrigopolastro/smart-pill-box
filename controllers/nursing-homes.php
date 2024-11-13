@@ -32,8 +32,10 @@ function nursingHomesController($nursingHomesAction, $params = [])
                     $_SESSION['logged_nursing_home_email'] = $nursingHome['email'];
                     $_SESSION['logged_nursing_home_password'] = $nursingHome['password'];
                     $_SESSION['logged_nursing_home_company_name'] = $nursingHome['company_name'];
-                    header("Location: /smart-pill-box/views/pages/overview.php");
-                    exit();
+                    if ((isset($params['do_redirect']) and $params['do_redirect'] == 'true')) {
+                        header("Location: /smart-pill-box/views/pages/overview.php");
+                        exit();
+                    }
                 } catch (PDOException $exception) {
                     echo $exception->getMessage();
                 }
