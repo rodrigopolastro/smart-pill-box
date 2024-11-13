@@ -7,7 +7,9 @@ CREATE TABLE NURSING_HOMES (
     NSH_company_name VARCHAR(100) NOT NULL,
     NSH_email VARCHAR(100) NOT NULL,
     NSH_password VARCHAR(30) NOT NULL,
-    NSH_registered_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP()
+    NSH_registered_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+
+    CONSTRAINT UNQ_NURSING_HOMES_email UNIQUE (NSH_email)
 );
 
 CREATE TABLE PEOPLE_IN_CARE (
@@ -51,7 +53,7 @@ CREATE TABLE TREATMENTS (
     TTM_pills_per_dose INTEGER NOT NULL,
     TTM_total_usage_days INTEGER NOT NULL,
     
-    CONSTRAINT CHK_TREATMENT_usage_frequency 
+    CONSTRAINT CHK_TREATMENTS_usage_frequency 
         CHECK (TTM_usage_frequency IN (
             'daily',
             'weekly',
@@ -59,18 +61,18 @@ CREATE TABLE TREATMENTS (
             'days_interval'
         )
     ),
-    CONSTRAINT CHK_TREATMENT_doses_per_day CHECK (TTM_doses_per_day > 0),
-    CONSTRAINT CHK_TREATMENT_pills_per_dose CHECK (TTM_pills_per_dose > 0),
-    CONSTRAINT CHK_TREATMENT_total_usage_days 
+    CONSTRAINT CHK_TREATMENTS_doses_per_day CHECK (TTM_doses_per_day > 0),
+    CONSTRAINT CHK_TREATMENTS_pills_per_dose CHECK (TTM_pills_per_dose > 0),
+    CONSTRAINT CHK_TREATMENTS_total_usage_days 
         CHECK (TTM_total_usage_days > 0 OR TTM_total_usage_days = -1), 
 
 	    
-    CONSTRAINT FK_PEOPLE_IN_CARE_TREATMENT
+    CONSTRAINT FK_PEOPLE_IN_CARE_TREATMENTS
         FOREIGN KEY (TTM_person_id)
         REFERENCES PEOPLE_IN_CARE (PIC_id)
         ON DELETE RESTRICT,
  
-    CONSTRAINT FK_MEDICINES_TREATMENT
+    CONSTRAINT FK_MEDICINES_TREATMENTS
         FOREIGN KEY (TTM_medicine_id)
         REFERENCES MEDICINES (MED_id)
         ON DELETE RESTRICT
@@ -83,8 +85,8 @@ CREATE TABLE DOSES (
     DOS_taken_datetime TIMESTAMP NULL DEFAULT NULL,
     DOS_was_taken BOOLEAN DEFAULT 0 NOT NULL,
 
-    CONSTRAINT FK_TREATMENT_DOSES
+    CONSTRAINT FK_TREATMENTS_DOSES
         FOREIGN KEY (DOS_treatment_id)
-        REFERENCES TREATMENT (TTM_id)
+        REFERENCES TREATMENTS (TTM_id)
         ON DELETE CASCADE
 );

@@ -55,7 +55,6 @@ function nursingHomesController($nursingHomesAction, $params = [])
                 $queryString = '?login_status=incorrect_info';
                 header('Location: /smart-pill-box/views/pages/login.php' . $queryString);
             }
-            print_r($_SESSION);
             break;
 
         case 'logout':
