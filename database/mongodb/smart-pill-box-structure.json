@@ -1,6 +1,6 @@
 {
-    "personId": null,
-    "status": "active",
+    "personInCareId": null,
+    "status": null,
     "slots": {
         "A": {
             "treatmentId": null,

@@ -8,8 +8,7 @@ $client = new MongoDB\Client($connectionStr);
 
 try {
     $db = $client->selectDatabase('smart_pill_box');
-    $boxesCollection = $db->selectCollection('smartPillBoxes');
-    printf('conctado');
+    $smartPillBoxes = $db->selectCollection('smartPillBoxes');
 } catch (Exception $e) {
     printf($e->getMessage());
 }

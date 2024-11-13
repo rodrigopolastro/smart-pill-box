@@ -85,4 +85,6 @@ function insertPersonInCare($personInCare)
     $statement->bindValue('allergies', $personInCare['allergies']);
     $statement->bindValue('notes', $personInCare['notes']);
     $statement->execute();
+
+    return $connection->lastInsertId();
 }
