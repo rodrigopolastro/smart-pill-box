@@ -1,32 +1,32 @@
 <?php
 
-require_once fullPath('database/mysql-connection.php');
+require_once fullPath('database/mysql/connection.php');
 
-function getAllMedicines($user_id)
+function selectAllMedicines($nursingHomeId)
 {
     global $connection;
     $statement = $connection->prepare(
-        "SELECT 
-            md.medicine_id,
-            md.medicine_name,
-            md.medicine_description,
-            md.doses_per_day,
-            md.quantity_per_dose,
-            md.treatment_start_date,
-            mt.portuguese_name medicine_type,
-            ft.portuguese_name frequency_type,
-            mu.portuguese_name measurement_unit
-        FROM medicines md 
-        INNER JOIN medicine_types mt  on mt.medicine_type_id = md.medicine_type_id
-        INNER JOIN frequency_types ft on ft.frequency_type_id = md.frequency_type_id
-        INNER JOIN measurement_units mu on mu.measurement_unit_id = md.measurement_unit_id
-        WHERE md.user_id = :user_id"
+        "SELECT
+            NSH_id, 
+            PIC_id,
+            TTM_id,
+            MED_id,
+            MED_name,
+            MED_description,
+            MED_quantity_pills,
+            MED_price
+        FROM MEDICINES 
+        INNER JOIN TREATMENTS ON TTM_medicine_id  = MED_id
+        INNER JOIN PEOPLE_IN_CARE ON PIC_id = TTM_person_in_care_id
+        INNER JOIN NURSING_HOMES ON NSH_id = PIC_nursing_home_id
+        WHERE NSH_id = :nursing_home_id"
     );
 
-    $statement->bindValue(':user_id', $user_id);
+    $statement->bindValue(':nursing_home_id', $nursingHomeId);
     $statement->execute();
-    $results = $statement->fetchAll(PDO::FETCH_ASSOC);
-    return $results;
+
+    $medicines = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $medicines;
 }
 
 function createMedicine($medicine)
