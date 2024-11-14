@@ -16,9 +16,9 @@ if (isset($jsonRequest['smart_pill_boxes_action'])) {
     echo json_encode(smartPillBoxesController($_POST['smart_pill_boxes_action'], $params));
 }
 
-function smartPillBoxesController($peopleInCareAction, $params = [])
+function smartPillBoxesController($smartPillBoxesAction, $params = [])
 {
-    switch ($peopleInCareAction) {
+    switch ($smartPillBoxesAction) {
         case 'create_smart_pill_box':
             insertSmartPillBox([
                 'person_in_care_id' => $params['person_in_care_id'],
@@ -28,8 +28,8 @@ function smartPillBoxesController($peopleInCareAction, $params = [])
 
         default:
             return [
-                'sucesso' => false,
-                'msgErro' => "Ação para Pessoas Sob Cuidado inválida informada: '" . $peopleInCareAction . "'"
+                'sucess' => false,
+                'errorMsg' => "Ação para Caixas Inteligentes inválida informada: '" . $smartPillBoxesAction . "'"
             ];
     }
 }

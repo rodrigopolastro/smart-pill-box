@@ -51,8 +51,8 @@ function peopleInCareController($peopleInCareAction, $params = [])
 
         default:
             return [
-                'sucesso' => false,
-                'msgErro' => "Ação para Pessoas Sob Cuidado inválida informada: '" . $peopleInCareAction . "'"
+                'sucess' => false,
+                'errorMsg' => "Ação para Pessoas Sob Cuidado inválida informada: '" . $peopleInCareAction . "'"
             ];
     }
 }

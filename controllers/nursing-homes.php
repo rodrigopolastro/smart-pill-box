@@ -68,8 +68,8 @@ function nursingHomesController($nursingHomesAction, $params = [])
 
         default:
             return [
-                'sucesso' => false,
-                'msgErro' => "Ação para Casas de Repouso inválida informada: '" . $nursingHomesAction . "'"
+                'sucess' => false,
+                'errorMsg' => "Ação para Casas de Repouso inválida informada: '" . $nursingHomesAction . "'"
             ];
     }
 }
