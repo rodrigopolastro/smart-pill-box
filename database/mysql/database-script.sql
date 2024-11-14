@@ -44,15 +44,17 @@ CREATE TABLE MEDICINES (
 
 CREATE TABLE TREATMENTS (
     TTM_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    TTM_person_id INTEGER NOT NULL,
+    TTM_person_in_care_id INTEGER NOT NULL,
     TTM_medicine_id INTEGER NOT NULL,
-    TTM_reason VARCHAR(100),
+    TTM_reason VARCHAR(100) NOT NULL,
     TTM_usage_frequency VARCHAR(30) NOT NULL,
     TTM_start_date DATE NOT NULL,
     TTM_doses_per_day INTEGER NOT NULL,
     TTM_pills_per_dose INTEGER NOT NULL,
     TTM_total_usage_days INTEGER NOT NULL,
     
+    CONSTRAINT UNQ_TREATMENTS_person_and_medicine
+        UNIQUE (TTM_person_in_care_id, TTM_medicine_id),
     CONSTRAINT CHK_TREATMENTS_usage_frequency 
         CHECK (TTM_usage_frequency IN (
             'daily',
@@ -68,7 +70,7 @@ CREATE TABLE TREATMENTS (
 
 	    
     CONSTRAINT FK_PEOPLE_IN_CARE_TREATMENTS
-        FOREIGN KEY (TTM_person_id)
+        FOREIGN KEY (TTM_person_in_care_id)
         REFERENCES PEOPLE_IN_CARE (PIC_id)
         ON DELETE RESTRICT,
  
