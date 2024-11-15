@@ -16,10 +16,7 @@ function selectAllMedicines($nursingHomeId)
             MED_quantity_pills,
             MED_price
         FROM MEDICINES 
-        INNER JOIN TREATMENTS ON TTM_medicine_id  = MED_id
-        INNER JOIN PEOPLE_IN_CARE ON PIC_id = TTM_person_in_care_id
-        INNER JOIN NURSING_HOMES ON NSH_id = PIC_nursing_home_id
-        WHERE NSH_id = :nursing_home_id"
+        WHERE MED_nursing_home_id = :nursing_home_id"
     );
 
     $statement->bindValue(':nursing_home_id', $nursingHomeId);
