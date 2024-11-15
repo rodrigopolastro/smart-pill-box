@@ -7,9 +7,6 @@ function selectAllMedicines($nursingHomeId)
     global $connection;
     $statement = $connection->prepare(
         "SELECT
-            NSH_id, 
-            PIC_id,
-            TTM_id,
             MED_id,
             MED_name,
             MED_description,
@@ -24,6 +21,27 @@ function selectAllMedicines($nursingHomeId)
 
     $medicines = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $medicines;
+}
+
+function selectMedicine($medicineId)
+{
+    global $connection;
+    $statement = $connection->prepare(
+        "SELECT
+            MED_id,
+            MED_name,
+            MED_description,
+            MED_quantity_pills,
+            MED_price
+        FROM MEDICINES 
+        WHERE MED_id = :medicine_id"
+    );
+
+    $statement->bindValue(':medicine_id', $medicineId);
+    $statement->execute();
+
+    $medicine = $statement->fetch(PDO::FETCH_ASSOC);
+    return $medicine;
 }
 
 function createMedicine($medicine)

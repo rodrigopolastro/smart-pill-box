@@ -26,6 +26,11 @@ function medicinesController($medicinesAction, $params = [])
             return $medicines;
             break;
 
+        case 'get_medicine':
+            $medicine = selectMedicine($params['medicine_id']);
+            return $medicine;
+            break;
+
         case 'create_medicine':
             // $doses_per_day = HOURS_IN_A_DAY / $_POST['doses_hours_interval'];
 
@@ -74,7 +79,7 @@ function medicinesController($medicinesAction, $params = [])
         default:
             return [
                 'sucess' => false,
-                'errorMsg' => "Ação para Pessoas Sob Cuidado inválida informada: '" . $medicinesAction . "'"
+                'errorMsg' => "Ação para Medicamentos inválida informada: '" . $medicinesAction . "'"
             ];
     }
 }

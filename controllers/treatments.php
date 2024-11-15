@@ -2,6 +2,7 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/smart-pill-box/helpers/full-path.php';
 require_once fullPath('models/treatments.php');
 require_once fullPath('controllers/doses.php');
+require_once fullPath('controllers/smart-pill-boxes.php');
 
 if (!isset($_SESSION)) {
     session_start();
@@ -36,6 +37,13 @@ function treatmentsController($treatmentsAction, $params = [])
                 'total_usage_days' => $params['total_usage_days']
             ]);
 
+            smartPillBoxesController('modify_slot_treatment', [
+                'person_in_care_id' => $params['person_in_care_id'],
+                'treatment_id' => $newTreatmentId,
+                'slot_name' => $params['slot_name'],
+                'medicine_id' => $params['medicine_id'],
+                'quantity' => $quantity ?? 0
+            ]);
 
             $treatmentStartDate = DateTimeImmutable::createFromFormat(
                 'Y-m-d',
@@ -64,8 +72,6 @@ function treatmentsController($treatmentsAction, $params = [])
                     ]);
                 }
             }
-
-
 
             $queryStr =
                 '?id=' . $params['person_in_care_id'] .
