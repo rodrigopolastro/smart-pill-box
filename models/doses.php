@@ -1,6 +1,6 @@
 <?php
 
-require_once fullPath('database/mysql-connection.php');
+require_once fullPath('database/mysql/connection.php');
 
 function getNextDoses($user_id)
 {
@@ -76,33 +76,21 @@ function getDosesFromMedicineId($medicine_id)
     return $results;
 }
 
-function createDose($dose)
+function insertDose($dose)
 {
     global $connection;
     $statement = $connection->prepare(
-        "INSERT INTO doses(
-            medicine_id, 
-            due_date,
-            due_time,
-            taken_date,
-            taken_time,
-            was_taken
+        "INSERT INTO DOSES (
+            DOS_treatment_id,
+            DOS_due_datetime
         ) VALUES (
-            :medicine_id, 
-            :due_date,
-            :due_time,
-            :taken_date,
-            :taken_time,
-            :was_taken
+            :treatment_id,
+            :due_datetime
         )"
     );
 
-    $statement->bindValue(':medicine_id', $dose['medicine_id']);
-    $statement->bindValue(':due_date',    $dose['due_date']);
-    $statement->bindValue(':due_time',    $dose['due_time']);
-    $statement->bindValue(':taken_date',  $dose['taken_date']);
-    $statement->bindValue(':taken_time',  $dose['taken_time']);
-    $statement->bindValue(':was_taken',   $dose['was_taken']);
+    $statement->bindValue(':treatment_id', $dose['treatment_id']);
+    $statement->bindValue(':due_datetime', $dose['due_datetime']);
     $statement->execute();
 
     return $connection->lastInsertId();

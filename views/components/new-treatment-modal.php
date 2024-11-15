@@ -17,10 +17,13 @@
                     <div class="mb-3 ui-front">
                         <label for="txtMedicineName" class="form-label">Nome do medicamento</label>
                         <input type="text" id="txtMedicineName" name="" class="form-control" required>
+                        <p>Não encontrou algum medicamento?
+                            <a href="<?= fullPath('views/pages/new-medicine.php', true) ?>">Cadastre um novo</a>
+                        </p>
                     </div>
                     <div class="mb-3 ui-front">
                         <label for="txtReason" class="form-label">Motivo da utilização</label>
-                        <input type="text" id="txtReason" name="reason" class="form-control">
+                        <input type="text" id="txtReason" name="reason" class="form-control" autocomplete="off">
                     </div>
                     <div class="mb-3">
                         <label for="seUsageFrequency" class="form-label">Frequência de utilização</label>
@@ -58,10 +61,10 @@
                     </div>
                     <label class="form-label">Horários das Doses</label>
                     <div id="dosesTimesDiv" class="">
-                        <input required type="time" name="dose_time_1" id="firstDoseTime" value="05:00" class="form-control w-100">
-                        <input readonly hidden disabled type="time" name="dose_time_2" id="secondDoseTime" class="form-control w-50 bg-secondary">
-                        <input readonly hidden disabled type="time" name="dose_time_3" id="thirdDoseTime" class="form-control w-50 bg-secondary">
-                        <input readonly hidden disabled type="time" name="dose_time_4" id="fourthDoseTime" class="form-control w-50 bg-secondary">
+                        <input required type="time" name="doses_times[0]" id="firstDoseTime" value="05:00" class="form-control w-100">
+                        <input readonly hidden disabled type="time" name="doses_times[1]" id="secondDoseTime" class="form-control w-50 bg-secondary">
+                        <input readonly hidden disabled type="time" name="doses_times[2]" id="thirdDoseTime" class="form-control w-50 bg-secondary">
+                        <input readonly hidden disabled type="time" name="doses_times[3]" id="fourthDoseTime" class="form-control w-50 bg-secondary">
                     </div>
                     <div class="mb-3">
                         <label for="numPillsPerDose" class="form-label">Comprimidos por dose</label>

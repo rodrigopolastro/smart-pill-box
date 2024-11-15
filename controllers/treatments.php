@@ -1,6 +1,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/smart-pill-box/helpers/full-path.php';
 require_once fullPath('models/treatments.php');
+require_once fullPath('controllers/doses.php');
 
 if (!isset($_SESSION)) {
     session_start();
@@ -24,9 +25,6 @@ function treatmentsController($treatmentsAction, $params = [])
         case 'create_treatment':
             $doses_per_day = HOURS_IN_A_DAY / $_POST['doses_hours_interval'];
 
-            print_r($params);
-
-
             $newTreatmentId = insertTreatment([
                 'person_in_care_id' => $params['person_in_care_id'],
                 'medicine_id' => $params['medicine_id'],
@@ -38,27 +36,44 @@ function treatmentsController($treatmentsAction, $params = [])
                 'total_usage_days' => $params['total_usage_days']
             ]);
 
-            // $created_medicine_id = createMedicine($medicine);
-            // if ($created_medicine_id) {
-            //     $query_string =
-            //         '?action=insert_medicine_doses' .
-            //         '&medicine_id=' . $created_medicine_id .
-            //         '&medicine_name=' . $medicine['medicine_name'] .
-            //         '&treatment_start_date=' . $_POST['treatment_start_date'] .
-            //         '&total_usage_days=' . $_POST['total_usage_days'] .
-            //         '&doses_per_day=' . $doses_per_day;
 
-            //     for ($i = 1; $i <= $doses_per_day; $i++) {
-            //         $var_name = 'dose_time_' . $i;
-            //         $query_string .= '&dose_time_' . $i . '=' . $_POST[$var_name];
-            //     }
-            //     header('Location: /smart-pill-box/controllers/doses.php' . $query_string);
-            // } else {
-            //     header('Location: /smart-pill-box/views/pages/list-medicines.php');
-            //     exit();
-            // }
+            $treatmentStartDate = DateTimeImmutable::createFromFormat(
+                'Y-m-d',
+                $params['start_date'],
+                new DateTimeZone('America/Sao_Paulo')
+            );
 
-            // exit();
+            // what we call "today's midnight" actually belongs to "tomorrow"
+            $daysIncrement = $params['doses_times'][0] == '00:00' ? 1 : 0;
+
+            for ($daysIncrement; $daysIncrement < $params['total_usage_days']; $daysIncrement++) {
+                $doseDueDate = $treatmentStartDate->add(new DateInterval('P' . $daysIncrement . 'D'));
+                for ($doseTimeIndex = 0; $doseTimeIndex < $doses_per_day; $doseTimeIndex++) {
+                    print_r($params['doses_times']) . '<br>';
+                    $doseDueTime = $params['doses_times'][$doseTimeIndex];
+                    $doseHours = explode(':', $doseDueTime)[0];
+                    $firstDoseHours = explode(':', $params['doses_times'][0])[0];
+
+                    if (intval($doseHours) < intval($firstDoseHours)) {
+                        $doseDueDate = $doseDueDate->add(new DateInterval('P1D'));
+                    }
+
+                    dosesController('create_dose', [
+                        'treatment_id' => $newTreatmentId,
+                        'due_datetime' => $doseDueDate->format('Y-m-d') . ' ' . $doseDueTime
+                    ]);
+                }
+            }
+
+
+
+            $queryStr =
+                '?id=' . $params['person_in_care_id'] .
+                '&status=treatment_created';
+            header(
+                'Location: ' . fullPath('views/pages/person-in-care-profile.php' . $queryStr, true)
+            );
+            exit();
             break;
 
         default:
