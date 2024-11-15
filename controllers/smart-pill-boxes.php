@@ -19,10 +19,25 @@ if (isset($jsonRequest['smart_pill_boxes_action'])) {
 function smartPillBoxesController($smartPillBoxesAction, $params = [])
 {
     switch ($smartPillBoxesAction) {
+        case 'get_smart_pill_box':
+            $smartPillBox = selectSmartPillBox($params['person_in_care_id']);
+            return $smartPillBox;
+            break;
+
         case 'create_smart_pill_box':
             insertSmartPillBox([
                 'person_in_care_id' => $params['person_in_care_id'],
                 'status' => 'active'
+            ]);
+            break;
+
+        case 'modify_slot_treatment':
+            updateSlotTreatment([
+                'person_in_care_id' => $params['person_in_care_id'],
+                'treatment_id' => $params['treatment_id'],
+                'slot_name' => $params['slot_name'],
+                'medicine_id' => $params['medicine_id'],
+                'quantity' => $params['quantity']
             ]);
             break;
 

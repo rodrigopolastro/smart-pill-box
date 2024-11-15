@@ -1,4 +1,4 @@
-<div class="modal fade" id="modalNewMedicine"
+<div class="modal fade" id="modalNewTreatment"
     data-bs-backdrop="static"
     data-bs-keyboard="false"
     tabindex="-1">
@@ -8,6 +8,7 @@
                 <input type="hidden" name="treatments_action" value="create_treatment">
                 <input type="hidden" name="person_in_care_id" value="<?= $_GET['id'] ?>">
                 <input type="hidden" name="medicine_id" value="" id="hiddenMedicineId">
+                <input type="hidden" name="slot_name" value="" id="hiddenSlotName">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5">Cadastrar Tratamento</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>

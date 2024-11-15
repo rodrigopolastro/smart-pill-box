@@ -15,3 +15,33 @@ function insertSmartPillBox($params)
     global $smartPillBoxes;
     $smartPillBoxes->insertOne($smartPillBox);
 }
+
+function selectSmartPillBox($personInCareId)
+{
+    $filter = ['personInCareId' => $personInCareId];
+
+    global $smartPillBoxes;
+    $smartPillBox = $smartPillBoxes->findOne($filter);
+
+    return $smartPillBox;
+}
+
+function updateSlotTreatment($params)
+{
+    $filter = ['personInCareId' => $params['person_in_care_id']];
+    $slot = 'slots.' . $params['slot_name'];
+
+    $update = [
+        '$set' => [
+            $slot  => [
+                'treatmentId' => $params['treatment_id'],
+                'medicineId' => $params['medicine_id'],
+                'quantity' => $params['quantity'],
+                'needsRefil' => null
+            ]
+        ]
+    ];
+
+    global $smartPillBoxes;
+    $smartPillBoxes->updateOne($filter, $update);
+}
