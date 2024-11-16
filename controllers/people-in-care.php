@@ -51,7 +51,10 @@ function peopleInCareController($peopleInCareAction, $params = [])
                 'person_in_care_id' => $personInCareId
             ]);
 
-            header('Location: /smart-pill-box/views/pages/people-in-care.php');
+            if (isset($params['redirect_url'])) {
+                header('Location: ' . $params['redirect_url']);
+                exit();
+            }
             break;
 
         default:

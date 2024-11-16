@@ -25,6 +25,7 @@ require_once fullPath('scripts/session-authentication.php');
                     <p class="mb-3 fs-3 fw-bold">Cadastrar Pessoa Sob Cuidado</p>
                     <form action="../../controllers/people-in-care.php" method="POST">
                         <input type="hidden" name="people_in_care_action" value="create_person_in_care">
+                        <input type="hidden" name="redirect_url" value="<?= fullPath('views/pages/people-in-care.php', true) ?>">
                         <div class="mb-3">
                             <label for="txtFirstName" class="form-label">Primeiro Nome*</label>
                             <input type="text" id="txtFirstName" name="first_name" class="form-control" required>

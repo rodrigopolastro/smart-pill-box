@@ -32,8 +32,8 @@ function nursingHomesController($nursingHomesAction, $params = [])
                     $_SESSION['logged_nursing_home_email'] = $nursingHome['email'];
                     $_SESSION['logged_nursing_home_password'] = $nursingHome['password'];
                     $_SESSION['logged_nursing_home_company_name'] = $nursingHome['company_name'];
-                    if ((isset($params['do_redirect']) and $params['do_redirect'] == 'true')) {
-                        header("Location: /smart-pill-box/views/pages/overview.php");
+                    if (isset($params['redirect_url'])) {
+                        header('Location: ' . fullPath($params['redirect_url'], true));
                         exit();
                     }
                 } catch (PDOException $exception) {
@@ -44,8 +44,6 @@ function nursingHomesController($nursingHomesAction, $params = [])
 
         case 'login':
             $nursingHome = selectNursingHomeByEmail($params['email']);
-            print_r($nursingHome);
-            print_r($params);
             if ($nursingHome && $nursingHome['NSH_password'] == trim($params['password'])) {
                 $_SESSION['logged_nursing_home_id'] = $nursingHome['NSH_id'];
                 $_SESSION['logged_nursing_home_email'] = $nursingHome['NSH_email'];

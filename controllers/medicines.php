@@ -39,8 +39,10 @@ function medicinesController($medicinesAction, $params = [])
                 'price' => floatval($params['price']),
                 'quantity_pills' => $params['quantity_pills']
             ]);
-            header('Location: ' . $params['redirect_url']);
-            exit();
+            if (isset($params['redirect_url'])) {
+                header('Location: ' . $params['redirect_url']);
+                exit();
+            }
             break;
 
         case 'get_person_unused_medicines':

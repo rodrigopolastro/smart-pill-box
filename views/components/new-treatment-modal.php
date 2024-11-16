@@ -6,6 +6,7 @@
         <div class="modal-content">
             <form action="<?= fullPath('controllers/treatments.php', true) ?>" method="POST">
                 <input type="hidden" name="treatments_action" value="create_treatment">
+                <input type="hidden" name="redirect_url" value="<?= fullPath('views/pages/person-in-care-profile.php', true) ?>">
                 <input
                     type="hidden" id="hiddenPersonInCareId"
                     name="person_in_care_id" value="<?= $_GET['id'] ?>">
@@ -54,16 +55,16 @@
                     <div class="mb-3">
                         <label class="form-label">Intervalo entre as doses</label><br>
 
-                        <input type="radio" name="doses_hours_interval" id="everySixHours" value="6" class="btn-check">
+                        <input type="radio" name="doses_per_day" id="everySixHours" value="4" class="btn-check">
                         <label class="btn btn-outline-primary" for="everySixHours">6 em 6 horas</label>
 
-                        <input type="radio" name="doses_hours_interval" id="everyEightHours" value="8" class="btn-check">
+                        <input type="radio" name="doses_per_day" id="everyEightHours" value="3" class="btn-check">
                         <label class="btn btn-outline-primary" for="everyEightHours">8 em 8 horas</label>
 
-                        <input type="radio" name="doses_hours_interval" id="everyTwelveHours" value="12" class="btn-check">
+                        <input type="radio" name="doses_per_day" id="everyTwelveHours" value="2" class="btn-check">
                         <label class="btn btn-outline-primary" for="everyTwelveHours">12 em 12 horas</label>
 
-                        <input checked type="radio" name="doses_hours_interval" id="everyTwentyFourHours" value="24" class="btn-check">
+                        <input checked type="radio" name="doses_per_day" id="everyTwentyFourHours" value="1" class="btn-check">
                         <label class="btn btn-outline-primary" for="everyTwentyFourHours">1 vez ao dia</label>
                     </div>
                     <label class="form-label">Horários das Doses</label>

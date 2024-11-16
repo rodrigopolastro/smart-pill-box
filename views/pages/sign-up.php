@@ -1,3 +1,7 @@
+<?php
+require_once $_SERVER['DOCUMENT_ROOT'] . '/smart-pill-box/helpers/full-path.php';
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -18,7 +22,7 @@
                         <h1 class="mb-3">Cadastre-se</h1>
                         <form action="../../controllers/nursing-homes.php" method="POST" id="sign-up-form">
                             <input type="hidden" name="nursing_homes_action" value="sign_up">
-                            <input type="hidden" name="do_redirect" value="true">
+                            <input type="hidden" name="redirect_url" value="<?= fullPath('views/pages/overview.php', true) ?>">
                             <div class="mb-3">
                                 <label for="txtCompanyName" class="form-label">Nome da Casa de Repouso</label>
                                 <input type="text" id="txtCompanyName" name="company_name" class="form-control" required>
