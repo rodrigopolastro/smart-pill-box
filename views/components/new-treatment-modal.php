@@ -6,9 +6,15 @@
         <div class="modal-content">
             <form action="<?= fullPath('controllers/treatments.php', true) ?>" method="POST">
                 <input type="hidden" name="treatments_action" value="create_treatment">
-                <input type="hidden" name="person_in_care_id" value="<?= $_GET['id'] ?>">
-                <input type="hidden" name="medicine_id" value="" id="hiddenMedicineId">
-                <input type="hidden" name="slot_name" value="" id="hiddenSlotName">
+                <input
+                    type="hidden" id="hiddenPersonInCareId"
+                    name="person_in_care_id" value="<?= $_GET['id'] ?>">
+                <input
+                    type="hidden" id="hiddenMedicineId"
+                    name="medicine_id" value="">
+                <input
+                    type="hidden" id="hiddenSlotName"
+                    name="slot_name" value="">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5">Cadastrar Tratamento</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>

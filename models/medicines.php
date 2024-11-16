@@ -88,3 +88,25 @@ function createMedicine($medicine)
 
     return $connection->lastInsertId();
 }
+
+function selectPersonUnusedMedicines($personInCareId)
+{
+    global $connection;
+    $statement = $connection->prepare(
+        "SELECT 
+            MED_id,
+            MED_name,
+            MED_description,
+            MED_quantity_pills
+            FROM MEDICINES
+            LEFT JOIN TREATMENTS ON TTM_medicine_id = MED_id
+                                AND TTM_person_in_care_id = :person_in_care_id
+            WHERE TTM_medicine_id IS NULL;"
+    );
+
+    $statement->bindValue(':person_in_care_id', $personInCareId);
+    $statement->execute();
+
+    $personUnusedMedicines = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $personUnusedMedicines;
+}

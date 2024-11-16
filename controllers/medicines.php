@@ -76,6 +76,13 @@ function medicinesController($medicinesAction, $params = [])
             // exit();
             break;
 
+        case 'get_person_unused_medicines':
+            $personUnusedMedicines = selectPersonUnusedMedicines(
+                $params['person_in_care_id']
+            );
+            return $personUnusedMedicines;
+            break;
+
         default:
             return [
                 'sucess' => false,

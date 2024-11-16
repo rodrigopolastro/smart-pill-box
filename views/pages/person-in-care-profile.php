@@ -117,8 +117,8 @@ $smartPillBox = smartPillBoxesController(
         <script src="../../assets/js/bootstrap.bundle.min.js"></script>
         <script src="../../assets/js/jquery.js"></script>
         <script src="../../assets/js/jquery-ui.min.js"></script>
-        <script src="../../assets/js/medicinesAutocomplete.js"></script>
-        <script src="../../assets/js/displayDosesTimesInputs.js"></script>
+        <script src="../js/medicinesAutocomplete.js"></script>
+        <script src="../js/displayDosesTimesInputs.js"></script>
         <script src="../js/addSlotNameToModal.js"></script>
     </main>
 </body>
