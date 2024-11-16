@@ -49,32 +49,22 @@ function createMedicine($medicine)
     global $connection;
     $statement = $connection->prepare(
         "INSERT INTO medicines (
-            user_id,
-            medicine_type_id,
-            frequency_type_id,
-            measurement_unit_id,
-            medicine_name,
-            medicine_description,
-            doses_per_day,
-            quantity_per_dose,
-            treatment_start_date,
-            total_usage_days
+            MED_nursing_home_id,
+            MED_name,
+            MED_description,
+            MED_price,
+            MED_quantity_pills
         ) VALUES (
             :user_id,
             :medicine_type_id,
             :frequency_type_id,
             :measurement_unit_id,
             :medicine_name,
-            :medicine_description,
-            :doses_per_day,
-            :quantity_per_dose,
-            :treatment_start_date,
-            :total_usage_days
-        )"
-    );
-
-    $statement->bindValue(':user_id', $medicine['user_id']);
-    $statement->bindValue(':medicine_type_id', $medicine['medicine_type_id']);
+            :nursing_home_id,
+            :name,
+            :description,
+            :price,
+            :quantity_pills
     $statement->bindValue(':frequency_type_id', $medicine['frequency_type_id']);
     $statement->bindValue(':measurement_unit_id', $medicine['measurement_unit_id']);
     $statement->bindValue(':medicine_name', $medicine['medicine_name']);
@@ -85,8 +75,6 @@ function createMedicine($medicine)
     $statement->bindValue(':total_usage_days', $medicine['total_usage_days']);
 
     $statement->execute();
-
-    return $connection->lastInsertId();
 }
 
 function selectPersonUnusedMedicines($personInCareId)

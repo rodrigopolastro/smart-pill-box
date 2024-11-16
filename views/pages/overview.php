@@ -19,8 +19,13 @@ require_once fullPath('scripts/session-authentication.php');
     require_once fullPath('views/components/header.php');
     ?>
     <main class="min-vh-100">
-        <div>
-            <a href="./people-in-care.php">Pessoas sob Cuidado</a>
+        <div class="container">
+            <div>
+                <a href="./people-in-care.php">Pessoas sob Cuidado</a>
+            </div>
+            <div>
+                <a href="./medicines.php">Medicamentos</a>
+            </div>
         </div>
     </main>
     <?php

@@ -30,7 +30,7 @@
                     </div>
                     <div class="mb-3 ui-front">
                         <label for="txtReason" class="form-label">Motivo da utilização</label>
-                        <input type="text" id="txtReason" name="reason" class="form-control" autocomplete="off">
+                        <input required type="text" id="txtReason" name="reason" class="form-control" autocomplete="off">
                     </div>
                     <div class="mb-3">
                         <label for="seUsageFrequency" class="form-label">Frequência de utilização</label>
