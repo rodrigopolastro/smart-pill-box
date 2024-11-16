@@ -39,7 +39,7 @@ function medicinesController($medicinesAction, $params = [])
                 'price' => floatval($params['price']),
                 'quantity_pills' => $params['quantity_pills']
             ]);
-            header('Location: ' . fullPath('views/pages/medicines.php', true));
+            header('Location: ' . $params['redirect_url']);
             exit();
             break;
 

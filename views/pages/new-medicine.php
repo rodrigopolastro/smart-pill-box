@@ -11,7 +11,7 @@ require_once fullPath('scripts/session-authentication.php');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../../assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="../../assets/css/general.css" rel="stylesheet">
-    <title>Nova Medicamento</title>
+    <title>Novo Medicamento</title>
 </head>
 
 <body>
@@ -24,9 +24,12 @@ require_once fullPath('scripts/session-authentication.php');
                     <p class="mb-3 fs-3 fw-bold">Cadastrar Medicamento</p>
                     <form action="../../controllers/medicines.php" method="POST">
                         <input type="hidden" name="medicines_action" value="create_medicine">
+                        <!-- return to the last page after the insertion  -->
+                        <input type="hidden" name="redirect_url"
+                            value="<?= $_SERVER['HTTP_REFERER'] ?>">
                         <div class="mb-3">
                             <label for="txtName" class="form-label">Nome do Medicamento</label>
-                            <input required type="text" id="txtName" name="name" class="form-control">
+                            <input required type="text" id="txtName" name="name" class="form-control" autocomplete="off">
                         </div>
                         <div class="mb-3">
                             <label for="txtDescription" class="form-label">Descrição</label>
