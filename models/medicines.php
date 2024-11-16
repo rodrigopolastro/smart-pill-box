@@ -11,7 +11,11 @@ function selectAllMedicines($nursingHomeId)
             MED_name,
             MED_description,
             MED_quantity_pills,
-            MED_price
+            MED_price,
+            (   SELECT COUNT(1) 
+                FROM TREATMENTS
+                WHERE TTM_medicine_id = MED_id
+            ) AS 'quantity_users'
         FROM MEDICINES 
         WHERE MED_nursing_home_id = :nursing_home_id"
     );
@@ -44,7 +48,7 @@ function selectMedicine($medicineId)
     return $medicine;
 }
 
-function createMedicine($medicine)
+function insertMedicine($medicine)
 {
     global $connection;
     $statement = $connection->prepare(
@@ -55,24 +59,19 @@ function createMedicine($medicine)
             MED_price,
             MED_quantity_pills
         ) VALUES (
-            :user_id,
-            :medicine_type_id,
-            :frequency_type_id,
-            :measurement_unit_id,
-            :medicine_name,
             :nursing_home_id,
             :name,
             :description,
             :price,
             :quantity_pills
-    $statement->bindValue(':frequency_type_id', $medicine['frequency_type_id']);
-    $statement->bindValue(':measurement_unit_id', $medicine['measurement_unit_id']);
-    $statement->bindValue(':medicine_name', $medicine['medicine_name']);
-    $statement->bindValue(':medicine_description', $medicine['medicine_description']);
-    $statement->bindValue(':doses_per_day', $medicine['doses_per_day']);
-    $statement->bindValue(':quantity_per_dose', $medicine['quantity_per_dose']);
-    $statement->bindValue(':treatment_start_date', $medicine['treatment_start_date']);
-    $statement->bindValue(':total_usage_days', $medicine['total_usage_days']);
+        )"
+    );
+
+    $statement->bindValue(':nursing_home_id', $medicine['nursing_home_id']);
+    $statement->bindValue(':name', $medicine['name']);
+    $statement->bindValue(':description', $medicine['description']);
+    $statement->bindValue(':price', $medicine['price']);
+    $statement->bindValue(':quantity_pills', $medicine['quantity_pills']);
 
     $statement->execute();
 }
