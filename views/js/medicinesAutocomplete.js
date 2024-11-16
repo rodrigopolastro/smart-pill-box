@@ -14,7 +14,6 @@ async function getPersonUnusedMedicines(personInCareId) {
     })
         .then((response) => response.json())
         .then((medicines) => {
-            console.log(medicines);
             if (medicines.length > 0) {
                 return {
                     hasRecords: true,
@@ -37,7 +36,11 @@ async function createMedicinesAutocomplete() {
     if (response.hasRecords) {
         const medicinesForAutocomplete = response.medicines.map((medicine) => {
             return {
-                label: medicine.MED_name + " - " + medicine.MED_description,
+                label:
+                    medicine.MED_name +
+                    (medicine.MED_description
+                        ? " - " + medicine.MED_description
+                        : ""),
                 value: medicine.MED_name,
                 id: medicine.MED_id,
                 data: medicine,
