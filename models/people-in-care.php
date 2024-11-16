@@ -4,7 +4,7 @@ require_once fullPath('database/mysql/connection.php');
 function selectPersonInCare($personInCareId)
 {
     global $connection;
-    $sql = $connection->prepare(
+    $statement = $connection->prepare(
         "SELECT 
             PIC_id,
             PIC_nursing_home_id,  
@@ -19,17 +19,17 @@ function selectPersonInCare($personInCareId)
         WHERE PIC_id = :person_in_care_id;"
     );
 
-    $sql->bindValue(':person_in_care_id', $personInCareId);
-    $sql->execute();
+    $statement->bindValue(':person_in_care_id', $personInCareId);
+    $statement->execute();
 
-    $personInCare = $sql->fetch(PDO::FETCH_ASSOC);
+    $personInCare = $statement->fetch(PDO::FETCH_ASSOC);
     return $personInCare;
 }
 
 function selectAllPeopleInCare($nursingHomeId)
 {
     global $connection;
-    $sql = $connection->prepare(
+    $statement = $connection->prepare(
         "SELECT 
             PIC_id,
             PIC_nursing_home_id,  
@@ -44,11 +44,33 @@ function selectAllPeopleInCare($nursingHomeId)
         WHERE PIC_nursing_home_id = :nursing_home_id;"
     );
 
-    $sql->bindValue('nursing_home_id', $nursingHomeId);
-    $sql->execute();
+    $statement->bindValue('nursing_home_id', $nursingHomeId);
+    $statement->execute();
 
-    $peopleInCare = $sql->fetchAll(PDO::FETCH_ASSOC);
+    $peopleInCare = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $peopleInCare;
+}
+
+function selectMedicineUsers($medicineId)
+{
+    global $connection;
+    $statement = $connection->prepare(
+        "SELECT 
+            PIC_id,
+            TTM_id,
+            TTM_reason,
+            PIC_first_name,
+            PIC_last_name
+        FROM PEOPLE_IN_CARE
+        INNER JOIN TREATMENTS ON TTM_person_in_care_id = PIC_id
+                             AND TTM_medicine_id = :medicine_id"
+    );
+
+    $statement->bindValue('medicine_id', $medicineId);
+    $statement->execute();
+
+    $medicineUsers = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $medicineUsers;
 }
 
 function insertPersonInCare($personInCare)

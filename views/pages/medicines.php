@@ -58,7 +58,10 @@ $medicines = medicinesController('get_all_medicines');
                                             type="button"
                                             class="btn btn-link"
                                             data-bs-toggle="modal"
-                                            data-bs-target="#modalMedicineUsers">
+                                            data-bs-target="#modalMedicineUsers"
+                                            data-medicine-id="<?= $medicine['MED_id'] ?>"
+                                            data-medicine-name="<?= $medicine['MED_name'] ?>"
+                                            data-medicine-description="<?= $medicine['MED_description'] ?>">
                                             <span>
                                                 <?= $medicine['quantity_users'] ?>
                                                 <?= $medicine['quantity_users'] == 1 ? ' Pessoa' : ' Pessoas' ?>
@@ -80,6 +83,7 @@ $medicines = medicinesController('get_all_medicines');
     require_once fullPath('views/components/footer.php');
     ?>
     <script src="../../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/displayMedicineUsers.js"></script>
 </body>
 
 </html>

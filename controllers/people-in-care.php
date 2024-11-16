@@ -30,6 +30,11 @@ function peopleInCareController($peopleInCareAction, $params = [])
             return $peopleInCare;
             break;
 
+        case 'get_medicine_users':
+            $medicineUsers = selectMedicineUsers($params['medicine_id']);
+            return $medicineUsers;
+            break;
+
         case 'create_person_in_care':
             $personInCare = [
                 'nursing_home_id' => $_SESSION['logged_nursing_home_id'],
