@@ -16,7 +16,7 @@
 ### Database
 
 -   Tables: UPPER_SNAKE_CASE
--   Columns: column names must have a 3 characters upperscore and an underscore prefix to identify their table. Prefer clarity over brevity.
+-   Columns: column names must be prefixed with 3 upperscore characteres that identify their table and an underscore (ex: MEDICINES.id -> MHD_id). Prefer clarity over brevity.
 
 ### Correspondence between endpoints and database operations
 

@@ -85,7 +85,7 @@ function treatmentsController($treatmentsAction, $params = [])
         default:
             return [
                 'sucess' => false,
-                'errorMsg' => "Ação para Pessoas Sob Cuidado inválida informada: '" . $treatmentsAction . "'"
+                'errorMsg' => "Ação para Tratamentos inválida informada: '" . $treatmentsAction . "'"
             ];
     }
 }
