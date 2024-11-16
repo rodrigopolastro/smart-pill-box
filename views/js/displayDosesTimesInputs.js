@@ -1,6 +1,6 @@
 const HOURS_IN_A_DAY = 24;
 const HOUR_IN_MILISECONDS = 60 * 60 * 1000;
-let selectedHoursInterval, dosesTimesInputs, numberOfInputsToDisplay;
+var selectedHoursInterval, dosesTimesInputs, dosesPerDay;
 const firstDoseTime = document.getElementById("firstDoseTime");
 
 window.addEventListener("load", displayDosesTimesInputs);
@@ -8,17 +8,14 @@ function displayDosesTimesInputs() {
     const dosesTimesDiv = document.getElementById("dosesTimesDiv");
     dosesTimesInputs = Array.from(dosesTimesDiv.querySelectorAll("input"));
     dosesTimesInputs.shift(); //First input is fixed
-    const doses_hours_interval_inputs = document.getElementsByName(
-        "doses_hours_interval"
-    );
+    const radiosDosesPerDay = document.getElementsByName("doses_per_day");
 
-    doses_hours_interval_inputs.forEach((radioInput) => {
+    radiosDosesPerDay.forEach((radioInput) => {
         radioInput.addEventListener("change", () => {
-            selectedHoursInterval = parseInt(radioInput.value);
-            numberOfInputsToDisplay = HOURS_IN_A_DAY / selectedHoursInterval;
+            dosesPerDay = parseInt(radioInput.value);
 
             hideAllInputs(dosesTimesInputs);
-            for (let i = 0; i < numberOfInputsToDisplay - 1; i++) {
+            for (let i = 0; i < dosesPerDay - 1; i++) {
                 dosesTimesInputs[i].hidden = false;
                 dosesTimesInputs[i].disabled = false;
             }
@@ -45,8 +42,8 @@ function updateDosesTimes() {
     let dateTime = new Date(0);
     dateTime.setHours(firstDoseHours);
     dateTime.setMinutes(firstDoseMinutes);
-    for (let i = 1; i <= numberOfInputsToDisplay - 1; i++) {
-        let hoursToAdd = selectedHoursInterval * i;
+    for (let i = 1; i <= dosesPerDay - 1; i++) {
+        let hoursToAdd = (HOURS_IN_A_DAY / dosesPerDay) * i;
         let milisecondsToAdd = hoursToAdd * HOUR_IN_MILISECONDS;
         let nextDateTime = new Date(dateTime.getTime() + milisecondsToAdd);
 

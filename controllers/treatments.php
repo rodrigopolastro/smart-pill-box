@@ -20,19 +20,15 @@ if (isset($jsonRequest['treatments_action'])) {
 
 function treatmentsController($treatmentsAction, $params = [])
 {
-    define('HOURS_IN_A_DAY', 24);
-
     switch ($treatmentsAction) {
         case 'create_treatment':
-            $doses_per_day = HOURS_IN_A_DAY / $_POST['doses_hours_interval'];
-
             $newTreatmentId = insertTreatment([
                 'person_in_care_id' => $params['person_in_care_id'],
                 'medicine_id' => $params['medicine_id'],
                 'reason' =>  $params['reason'],
                 'usage_frequency' => $params['usage_frequency'],
                 'start_date' => $params['start_date'],
-                'doses_per_day' => $doses_per_day,
+                'doses_per_day' => $params['doses_per_day'],
                 'pills_per_dose' => $params['pills_per_dose'],
                 'total_usage_days' => $params['total_usage_days']
             ]);
@@ -56,12 +52,12 @@ function treatmentsController($treatmentsAction, $params = [])
 
             for ($daysIncrement; $daysIncrement < $params['total_usage_days']; $daysIncrement++) {
                 $doseDueDate = $treatmentStartDate->add(new DateInterval('P' . $daysIncrement . 'D'));
-                for ($doseTimeIndex = 0; $doseTimeIndex < $doses_per_day; $doseTimeIndex++) {
-                    print_r($params['doses_times']) . '<br>';
+                for ($doseTimeIndex = 0; $doseTimeIndex < $params['doses_per_day']; $doseTimeIndex++) {
                     $doseDueTime = $params['doses_times'][$doseTimeIndex];
                     $doseHours = explode(':', $doseDueTime)[0];
                     $firstDoseHours = explode(':', $params['doses_times'][0])[0];
 
+                    //if time has overflowed the 24 hours, move to the next day
                     if (intval($doseHours) < intval($firstDoseHours)) {
                         $doseDueDate = $doseDueDate->add(new DateInterval('P1D'));
                     }
@@ -76,10 +72,12 @@ function treatmentsController($treatmentsAction, $params = [])
             $queryStr =
                 '?id=' . $params['person_in_care_id'] .
                 '&status=treatment_created';
-            header(
-                'Location: ' . fullPath('views/pages/person-in-care-profile.php' . $queryStr, true)
-            );
-            exit();
+            if (isset($params['redirect_url'])) {
+                header(
+                    'Location: ' . fullPath('views/pages/person-in-care-profile.php' . $queryStr, true)
+                );
+                exit();
+            }
             break;
 
         default:
