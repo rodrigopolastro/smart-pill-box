@@ -114,6 +114,7 @@ $treatments = [
     [
         'person_in_care_id' => '1',
         'medicine_id' => '1',
+        'status' => 'ongoing',
         'reason' => 'gripe',
         'usage_frequency' => 'daily',
         'start_date' => '2024-11-13',
@@ -126,6 +127,7 @@ $treatments = [
     [
         'person_in_care_id' => '2',
         'medicine_id' => '2',
+        'status' => 'ongoing',
         'reason' => 'virose',
         'usage_frequency' => 'daily',
         'start_date' => '2024-11-13',
@@ -138,6 +140,7 @@ $treatments = [
     [
         'person_in_care_id' => '3',
         'medicine_id' => '3',
+        'status' => 'ongoing',
         'reason' => 'dor de cabeça',
         'usage_frequency' => 'daily',
         'start_date' => '2024-11-13',
@@ -153,6 +156,7 @@ foreach ($treatments as $treatment) {
     treatmentsController('create_treatment', [
         'person_in_care_id' => $treatment['person_in_care_id'],
         'medicine_id' => $treatment['medicine_id'],
+        'status' => $treatment['status'],
         'reason' => $treatment['reason'],
         'usage_frequency' => $treatment['usage_frequency'],
         'start_date' => $treatment['start_date'],

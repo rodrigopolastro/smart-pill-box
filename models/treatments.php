@@ -9,6 +9,7 @@ function insertTreatment($treatment)
         "INSERT INTO TREATMENTS (
             TTM_person_in_care_id,
             TTM_medicine_id,
+            TTM_status,
             TTM_reason,
             TTM_usage_frequency,
             TTM_start_date,
@@ -18,6 +19,7 @@ function insertTreatment($treatment)
         ) VALUES (
             :person_in_care_id,
             :medicine_id,
+            :status,
             :reason,
             :usage_frequency,
             :start_date,
@@ -29,6 +31,7 @@ function insertTreatment($treatment)
 
     $statement->bindValue('person_in_care_id', $treatment['person_in_care_id']);
     $statement->bindValue('medicine_id', $treatment['medicine_id']);
+    $statement->bindValue('status', $treatment['status']);
     $statement->bindValue('reason', $treatment['reason']);
     $statement->bindValue('usage_frequency', $treatment['usage_frequency']);
     $statement->bindValue('start_date', $treatment['start_date']);

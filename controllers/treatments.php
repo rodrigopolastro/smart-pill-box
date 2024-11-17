@@ -25,6 +25,7 @@ function treatmentsController($treatmentsAction, $params = [])
             $newTreatmentId = insertTreatment([
                 'person_in_care_id' => $params['person_in_care_id'],
                 'medicine_id' => $params['medicine_id'],
+                'status' => 'ongoing',
                 'reason' =>  $params['reason'],
                 'usage_frequency' => $params['usage_frequency'],
                 'start_date' => $params['start_date'],
