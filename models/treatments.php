@@ -1,6 +1,44 @@
 <?php
-
 require_once fullPath('database/mysql/connection.php');
+
+function selectTreatment($treatmentId)
+{
+    global $connection;
+    $statement = $connection->prepare(
+        "SELECT
+            TTM_person_in_care_id,
+            TTM_medicine_id,
+            TTM_status,
+            TTM_reason,
+            TTM_usage_frequency,
+            TTM_start_date,
+            TTM_doses_per_day,
+            TTM_pills_per_dose,
+            TTM_total_usage_days,
+            ( 
+                SELECT COUNT(1) FROM DOSES 
+                WHERE DOS_treatment_id = 1 
+                AND DOS_was_taken IS TRUE
+            ) AS 'taken_doses',
+            ( 
+                SELECT COUNT(1) FROM DOSES 
+                WHERE DOS_treatment_id = 1
+            ) AS 'total_doses',
+            ( 
+                SELECT DOS_due_datetime FROM DOSES
+                WHERE DOS_treatment_id = 1
+                ORDER BY DOS_due_datetime DESC LIMIT 1
+            ) AS 'last_dose_date'
+        FROM TREATMENTS 
+        WHERE TTM_id = :treatment_id"
+    );
+
+    $statement->bindValue(':treatment_id', $treatmentId);
+    $statement->execute();
+
+    $treatment = $statement->fetch(PDO::FETCH_ASSOC);
+    return $treatment;
+}
 
 function insertTreatment($treatment)
 {

@@ -21,6 +21,11 @@ if (isset($jsonRequest['treatments_action'])) {
 function treatmentsController($treatmentsAction, $params = [])
 {
     switch ($treatmentsAction) {
+        case 'get_treatment':
+            $treatment = selectTreatment($params['treatment_id']);
+            return $treatment;
+            break;
+
         case 'create_treatment':
             $newTreatmentId = insertTreatment([
                 'person_in_care_id' => $params['person_in_care_id'],

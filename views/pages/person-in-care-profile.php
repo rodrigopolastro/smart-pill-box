@@ -5,6 +5,7 @@ require_once fullPath('helpers/calc-age.php');
 require_once fullPath('controllers/people-in-care.php');
 require_once fullPath('controllers/smart-pill-boxes.php');
 require_once fullPath('controllers/medicines.php');
+require_once fullPath('controllers/treatments.php');
 
 $personInCare = peopleInCareController(
     'get_person_in_care',
@@ -92,10 +93,28 @@ $smartPillBox = smartPillBoxesController(
                                         'get_medicine',
                                         ['medicine_id' => $slot['medicineId']]
                                     );
+                                    $treatment = treatmentsController(
+                                        'get_treatment',
+                                        ['treatment_id' => $slot['treatmentId']]
+                                    );
                                     ?>
                                     <div class="text-center">
                                         <span><?= $medicine['MED_name'] ?></span>
                                         <span> - <?= $slot['quantity'] ?> comprimidos</span>
+                                    </div>
+                                    <div class="text-center">
+                                        <span>
+                                            Período:
+                                            <?= date_format(date_create($treatment['TTM_start_date']), "d/m/y") ?>
+                                            a
+                                            <?= date_format(date_create($treatment['last_dose_date']), "d/m/y") ?>
+                                        </span>
+                                    </div>
+                                    <div class="text-center">
+                                        <span>
+                                            Doses:
+                                            <?= $treatment['taken_doses'] . '/' . $treatment['total_doses'] ?>
+                                        </span>
                                     </div>
                                     <div class="d-flex justify-content-center gap-2">
                                         <button type="button" class="btn btn-primary">Adicionar Comprimidos</button>
