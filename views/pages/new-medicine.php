@@ -41,7 +41,7 @@ require_once fullPath('scripts/session-authentication.php');
                                 id="numPrice" name="price" class="form-control">
                         </div>
                         <div class="mb-3">
-                            <label for="numQuantityPills" class="form-label">Quantidade de Comprimidos Atual</label>
+                            <label for="numQuantityPills" class="form-label">Quantidade de Comprimidos em estoque</label>
                             <input required type="number" id="numQuantityPills" name="quantity_pills" class="form-control">
                         </div>
                         <input type="submit" value="Cadastrar" class="btn btn-primary">

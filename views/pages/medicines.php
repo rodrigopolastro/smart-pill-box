@@ -22,7 +22,7 @@ $medicinesPillsInBoxes = smartPillBoxesController('count_medicines_pills_in_boxe
 <body>
     <?php
     require_once fullPath('views/components/header.php');
-    require_once fullPath('views/components/medicine-users.php');
+    require_once fullPath('views/components/medicine-users-modal.php');
     ?>
     <main class="min-vh-100">
         <div class="container">

@@ -28,3 +28,7 @@ td {
     max-height: 400px;
     padding-right: 15px;
 }
+
+p {
+    margin-bottom: 0;
+}

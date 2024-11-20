@@ -33,6 +33,7 @@ $smartPillBox = smartPillBoxesController(
     <?php
     require_once fullPath('views/components/header.php');
     require_once fullPath('views/components/new-treatment-modal.php');
+    require_once fullPath('views/components/add-pills-to-slot-modal.php');
     ?>
     <main class="">
         <div class="container py-4">
@@ -117,7 +118,13 @@ $smartPillBox = smartPillBoxesController(
                                         </span>
                                     </div>
                                     <div class="d-flex justify-content-center gap-2">
-                                        <button type="button" class="btn btn-primary">Adicionar Comprimidos</button>
+                                        <button type="button" class="btn btn-primary"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modalAddPillsToSlot"
+                                            data-medicine-id="<?= $slot['medicineId'] ?>"
+                                            data-slot-name="<?= $slotName ?>">
+                                            Adicionar Comprimidos
+                                        </button>
                                         <button type="button" class="btn btn-info"
                                             data-slot-name="<?= $slotName ?>">
                                             Editar Tratamento
@@ -139,6 +146,7 @@ $smartPillBox = smartPillBoxesController(
         <script src="../js/medicinesAutocomplete.js"></script>
         <script src="../js/displayDosesTimesInputs.js"></script>
         <script src="../js/addSlotNameToModal.js"></script>
+        <script src="../js/displayAddPillsModalInfo.js"></script>
     </main>
 </body>
 

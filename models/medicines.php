@@ -96,10 +96,10 @@ function selectPersonUnusedMedicines($personInCareId)
             MED_name,
             MED_description,
             MED_quantity_pills
-            FROM MEDICINES
-            LEFT JOIN TREATMENTS ON TTM_medicine_id = MED_id
-                                AND TTM_person_in_care_id = :person_in_care_id
-            WHERE TTM_medicine_id IS NULL;"
+        FROM MEDICINES
+        LEFT JOIN TREATMENTS ON TTM_medicine_id = MED_id
+                            AND TTM_person_in_care_id = :person_in_care_id
+        WHERE TTM_medicine_id IS NULL"
     );
 
     $statement->bindValue(':person_in_care_id', $personInCareId);
@@ -107,4 +107,18 @@ function selectPersonUnusedMedicines($personInCareId)
 
     $personUnusedMedicines = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $personUnusedMedicines;
+}
+
+function removePillsFromStock($medicineId, $pillsRemoved)
+{
+    global $connection;
+    $statement = $connection->prepare(
+        "UPDATE MEDICINES 
+        SET MED_quantity_pills = MED_quantity_pills - :pills_removed
+        WHERE MED_id = :medicine_id"
+    );
+
+    $statement->bindValue(':medicine_id', $medicineId);
+    $statement->bindValue(':pills_removed', $pillsRemoved);
+    $statement->execute();
 }

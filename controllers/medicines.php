@@ -2,8 +2,6 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/smart-pill-box/helpers/full-path.php';
 require_once fullPath('models/medicines.php');
 
-define('HOURS_IN_A_DAY', 24);
-
 if (!isset($_SESSION)) {
     session_start();
 }
@@ -50,6 +48,10 @@ function medicinesController($medicinesAction, $params = [])
                 $params['person_in_care_id']
             );
             return $personUnusedMedicines;
+            break;
+
+        case 'remove_pills_from_stock':
+            removePillsFromStock($params['medicine_id'], $params['pills_added_to_slot']);
             break;
 
         default:
