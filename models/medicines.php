@@ -10,8 +10,19 @@ function selectAllMedicines($nursingHomeId)
             MED_id,
             MED_name,
             MED_description,
-            MED_quantity_pills,
             MED_price,
+            MED_quantity_pills,
+            (
+                SELECT 
+                    IFNULL(
+                        SUM(TTM_total_usage_days * 
+                            TTM_doses_per_day * 
+                            TTM_pills_per_dose
+                        ), 0
+                    )
+                FROM TREATMENTS
+                WHERE TTM_medicine_id = MED_id
+            ) AS 'total_required_pills',
             (   SELECT COUNT(1) 
                 FROM TREATMENTS
                 WHERE TTM_medicine_id = MED_id

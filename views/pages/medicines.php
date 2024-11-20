@@ -2,8 +2,10 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/smart-pill-box/helpers/full-path.php';
 require_once fullPath('scripts/session-authentication.php');
 require_once fullPath('controllers/medicines.php');
+require_once fullPath('controllers/smart-pill-boxes.php');
 
 $medicines = medicinesController('get_all_medicines');
+$medicinesPillsInBoxes = smartPillBoxesController('count_medicines_pills_in_boxes');
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +44,9 @@ $medicines = medicinesController('get_all_medicines');
                     <thead>
                         <th>Nome do Medicamento</th>
                         <th>Descrição</th>
-                        <th>Quantidade de Comprimidos</th>
+                        <th>Em Estoque</th>
+                        <th>Comprimidos Necessários</th>
+                        <th>Comprimidos nas Caixas</th>
                         <th>Utilizado por</th>
                         <th>Preço</th>
                     </thead>
@@ -51,7 +55,37 @@ $medicines = medicinesController('get_all_medicines');
                             <tr>
                                 <td><?= $medicine['MED_name'] ?></td>
                                 <td><?= $medicine['MED_description'] ?></td>
-                                <td><?= $medicine['MED_quantity_pills'] ?></td>
+                                <td>
+                                    <?php $balance = $medicine['MED_quantity_pills'] - $medicine['total_required_pills'] ?>
+                                    <?php if ($balance >= 0) : ?>
+                                        <?= $medicine['MED_quantity_pills'] ?>
+                                        <span class="text-success fw-bold">
+                                            <?= '(+' . $balance . ')' ?>
+                                        </span>
+                                    <?php else : ?>
+                                        <?= $medicine['MED_quantity_pills'] ?>
+                                        <span class="text-danger fw-bold">
+                                            <?= '(' . $balance . ')' ?>
+                                        </span>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <?php $balance = $medicine['total_required_pills'] - $medicinesPillsInBoxes[$medicine['MED_id']] ?>
+                                    <?php if ($balance >= 0) : ?>
+                                        <?= $medicine['total_required_pills'] ?>
+                                        <span class="text-success fw-bold">
+                                            <?= '(+' . $balance . ')' ?>
+                                        </span>
+                                    <?php else : ?>
+                                        <?= $medicine['total_required_pills'] ?>
+                                        <span class="text-danger fw-bold">
+                                            <?= '(' . $balance . ')' ?>
+                                        </span>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <?= $medicinesPillsInBoxes[$medicine['MED_id']] ?>
+                                </td>
                                 <?php if ($medicine['quantity_users'] > 0) : ?>
                                     <td>
                                         <button

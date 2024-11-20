@@ -42,6 +42,13 @@ function smartPillBoxesController($smartPillBoxesAction, $params = [])
             ]);
             break;
 
+        case 'count_medicines_pills_in_boxes':
+            $medicinesPillsInBoxes = countMedicinesPillsInBoxes([
+                'nursing_home_id' => strval($_SESSION['logged_nursing_home_id'])
+            ]);
+            return $medicinesPillsInBoxes;
+            break;
+
         default:
             return [
                 'sucess' => false,

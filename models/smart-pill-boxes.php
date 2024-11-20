@@ -46,3 +46,40 @@ function updateSlotTreatment($params)
     global $smartPillBoxes;
     $smartPillBoxes->updateOne($filter, $update);
 }
+
+function countMedicinesPillsInBoxes($params)
+{
+    $pipeline = [
+        [
+            '$match' => ['nursingHomeId' => $params['nursing_home_id']]
+        ],
+        [
+            '$project' => ['slots' => ['$objectToArray' => '$slots']]
+        ],
+        [
+            // Unwind the array to treat each slot as a document
+            '$unwind' => '$slots'
+        ],
+        [
+            '$match' => [
+                'slots.v.medicineId' => [
+                    '$exists' => true,
+                    '$ne' => null
+                ],
+            ]
+        ],
+        [
+            '$group' => [
+                '_id' => '$slots.v.medicineId',
+                'pillsInBoxes' => ['$sum' => '$slots.v.quantity']
+            ]
+        ]
+    ];
+
+    global $smartPillBoxes;
+    $results = $smartPillBoxes->aggregate($pipeline)->toArray();
+
+    //medicineId becomes the key and the quantity of pills in boxes becomes the value
+    $medicinesPillsInBoxes = array_column($results, 'pillsInBoxes', '_id');
+    return $medicinesPillsInBoxes;
+}
