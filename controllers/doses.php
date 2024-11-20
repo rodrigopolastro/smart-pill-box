@@ -19,33 +19,14 @@ if (isset($jsonRequest['doses_action'])) {
 function dosesController($dosesAction, $params = [])
 {
     switch ($dosesAction) {
-            // case 'select_all_doses':
-            //     $doses = ['not_taken_doses' => getNextDoses($_SESSION['user_id'])];
-            //     echo json_encode($doses);
-            //     break;
-
-            // case 'select_medicine_doses':
-            //     $medicine_id = $_POST['medicine_id'];
-            //     $results = getDosesFromMedicineId($medicine_id);
-            //     $doses = [
-            //         'taken_doses' => [],
-            //         'not_taken_doses' => [],
-            //     ];
-            //     foreach ($results as $dose) {
-            //         if ($dose['was_taken']) {
-            //             array_push($doses['taken_doses'], $dose);
-            //         } else {
-            //             array_push($doses['not_taken_doses'], $dose);
-            //         }
-            //     }
-            //     echo json_encode($doses);
-            //     break;
-
-            // case 'count_medicine_doses':
-            //     $medicine_id = $_POST['medicine_id'];
-            //     $number_doses = countMedicineDoses($medicine_id);
-            //     echo json_encode($number_doses);
-            //     break;
+        case 'get_filtered_doses':
+            $doses = selectFilteredDoses([
+                'nursing_home_id' => $_SESSION['logged_nursing_home_id'],
+                'filters' => $params['filters'] ?? NULL,
+                'order_by' => $params['order_by'] ?? NULL
+            ]);
+            return $doses;
+            break;
 
         case 'create_dose':
             insertDose([

@@ -26,6 +26,9 @@ require_once fullPath('scripts/session-authentication.php');
             <div>
                 <a href="./medicines.php">Medicamentos</a>
             </div>
+            <div>
+                <a href="./doses.php">Doses</a>
+            </div>
         </div>
     </main>
     <?php

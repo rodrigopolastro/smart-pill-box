@@ -2,33 +2,55 @@
 
 require_once fullPath('database/mysql/connection.php');
 
-function getNextDoses($user_id)
+function selectFilteredDoses($params)
 {
-    global $connection;
-    $statement = $connection->prepare(
-        "SELECT 
-            md.medicine_id,
-            md.medicine_name,
-            md.quantity_per_dose,
-            mu.portuguese_name measurement_unit,
-            ds.dose_id,
-            ds.due_date,
-            ds.due_time,
-            ds.taken_date,
-            ds.taken_time,
-            ds.was_taken
-        FROM doses ds 
-        INNER JOIN medicines md on md.medicine_id = ds.medicine_id
-        INNER JOIN measurement_units mu on mu.measurement_unit_id = md.measurement_unit_id
-        WHERE ds.was_taken = FALSE
-        AND md.user_id = :user_id
-        ORDER BY ds.due_date ASC, ds.due_time ASC"
-    );
+    $sql =
+        "SELECT
+            DOS_id,
+            DOS_treatment_id,
+            MED_id,
+            MED_name,
+            PIC_id,
+            PIC_first_name,
+            PIC_last_name,
+            DOS_due_datetime,
+            DOS_was_taken,
+            DOS_taken_datetime,
+            ( 
+                SELECT COUNT(1) FROM DOSES 
+                WHERE DOS_treatment_id = 1 
+                AND DOS_was_taken IS TRUE
+            ) AS 'treatment_taken_doses',
+            ( 
+                SELECT COUNT(1) FROM DOSES 
+                WHERE DOS_treatment_id = 1
+            ) AS 'treatment_total_doses'
+        FROM DOSES
+        INNER JOIN TREATMENTS ON TTM_id = DOS_treatment_id
+        INNER JOIN MEDICINES ON MED_id = TTM_medicine_id
+        INNER JOIN PEOPLE_IN_CARE ON PIC_id = TTM_person_in_care_id
+        WHERE PIC_nursing_home_id = :nursing_home_id";
 
-    $statement->bindValue(':user_id', $user_id);
+    if (!is_null($params['filters'])) {
+        foreach ($params['filters'] as $filter) {
+            $column = $filter[0];
+            $value = $filter[1];
+            $sql .= ' AND ' . $column . ' = ' . $value;
+        }
+    }
+    if (!is_null($params['filters'])) {
+        $column = $params['order_by'][0];
+        $direction = $params['order_by'][1];
+        $sql .= ' ORDER BY ' . $column . ' ' . $direction;
+    }
+
+    global $connection;
+    $statement = $connection->prepare($sql);
+    $statement->bindValue(':nursing_home_id', $params['nursing_home_id']);
     $statement->execute();
-    $results = $statement->fetchAll(PDO::FETCH_ASSOC);
-    return $results;
+
+    $doses = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $doses;
 }
 
 function countMedicineDoses($medicine_id)
