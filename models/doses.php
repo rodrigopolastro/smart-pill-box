@@ -16,6 +16,7 @@ function selectFilteredDoses($params)
             DOS_due_datetime,
             DOS_was_taken,
             DOS_taken_datetime,
+            TTM_pills_per_dose,
             ( 
                 SELECT COUNT(1) FROM DOSES 
                 WHERE DOS_treatment_id = 1 

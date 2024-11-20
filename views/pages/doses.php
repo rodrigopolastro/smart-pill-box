@@ -91,15 +91,16 @@ $peopleInCare = peopleInCareController('get_all_people_in_care');
                     <table id="tableNotTakenDoses" class="table table-striped">
                         <thead>
                             <th>Status</th>
+                            <th>Data Marcada</th>
                             <th>Pessoa Sob Cuidado</th>
                             <th>Medicamento</th>
-                            <th>Data Marcada</th>
+                            <th>Dosagem</th>
                             <th>Número da Dose</th>
                         </thead>
                         <tbody>
                             <?php foreach ($not_taken_doses as $not_taken_dose) : ?>
                                 <?php
-                                $current_time = date_create();
+                                $current_time = date_create('now');
                                 $dose_due_datetime = date_create($not_taken_dose['DOS_due_datetime']);
                                 ?>
                                 <tr>
@@ -113,6 +114,15 @@ $peopleInCare = peopleInCareController('get_all_people_in_care');
                                         <?php endif; ?>
                                     </td>
                                     <td>
+                                        <?php if (date_format($dose_due_datetime, 'd/m/y') == date_format($current_time, 'd/m/y')) : ?>
+                                            <span class="text-warning fw-bold">
+                                                Hoje - <?= date_format(date_create($not_taken_dose['DOS_due_datetime']), "H:i") ?>
+                                            </span>
+                                        <?php else : ?>
+                                            <span><?= date_format(date_create($not_taken_dose['DOS_due_datetime']), "d/m/y - H:i") ?></span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
                                         <a href="./person-in-care-profile.php?id=<?= $not_taken_dose['PIC_id'] ?>">
                                             <span><?= $not_taken_dose['PIC_first_name'] ?> <?= $not_taken_dose['PIC_last_name'] ?></span>
                                         </a>
@@ -121,13 +131,10 @@ $peopleInCare = peopleInCareController('get_all_people_in_care');
                                         <span><?= $not_taken_dose['MED_name'] ?></span>
                                     </td>
                                     <td>
-                                        <?php if (date_format($dose_due_datetime, 'd/m/y') == date_format($current_time, 'd/m/y')) : ?>
-                                            <span class="text-warning fw-bold">
-                                                Hoje - <?= date_format(date_create($not_taken_dose['DOS_due_datetime']), "H:i") ?>
-                                            </span>
-                                        <?php else : ?>
-                                            <span><?= date_format(date_create($not_taken_dose['DOS_due_datetime']), "d/m/y - H:i") ?></span>
-                                        <?php endif; ?>
+                                        <span>
+                                            <?= $not_taken_dose['TTM_pills_per_dose'] ?>
+                                            <?= $not_taken_dose['TTM_pills_per_dose'] == 1 ? 'comprimido' : 'comprimidos' ?>
+                                        </span>
                                     </td>
                                     <td>
                                         <?= $not_taken_dose['treatment_taken_doses'] . '/' . $not_taken_dose['treatment_total_doses'] ?>
