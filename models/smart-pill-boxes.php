@@ -9,6 +9,7 @@ function insertSmartPillBox($params)
     $structureFile = file_get_contents(STRUCTURE_PATH);
     $smartPillBox = json_decode($structureFile, true);
 
+    $smartPillBox['nursingHomeId'] = $params['nursing_home_id'];
     $smartPillBox['personInCareId'] = $params['person_in_care_id'];
     $smartPillBox['status'] = $params['status'];
 

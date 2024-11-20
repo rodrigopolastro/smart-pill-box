@@ -26,6 +26,7 @@ function smartPillBoxesController($smartPillBoxesAction, $params = [])
 
         case 'create_smart_pill_box':
             insertSmartPillBox([
+                'nursing_home_id' => $_SESSION['logged_nursing_home_id'],
                 'person_in_care_id' => $params['person_in_care_id'],
                 'status' => 'active'
             ]);
