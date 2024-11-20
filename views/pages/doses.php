@@ -4,30 +4,14 @@ require_once fullPath('scripts/session-authentication.php');
 require_once fullPath('controllers/doses.php');
 require_once fullPath('controllers/medicines.php');
 require_once fullPath('controllers/people-in-care.php');
-
-$filters = [];
-$selectedFilter = null;
-$filteredValue = null;
-if (isset($_POST['selected_filter'])) {
-    $selectedFilter = $_POST['selected_filter'];
-    if ($_POST['selected_filter'] == 'person_in_care') {
-        $filters[] = ['PIC_id', $_POST['person_in_care_id']];
-        $filteredValue = intval($_POST['person_in_care_id']);
-    } elseif ($_POST['selected_filter'] == 'medicine') {
-        $filters[] = ['MED_id', $_POST['medicine_id']];
-        $filteredValue = $_POST['medicine_id'];
-    } elseif ($_POST['selected_filter'] == 'due_date') {
-        $filters[] = ['DOS_due_datetime', $_POST['due_date']];
-        $filteredValue = $_POST['due_date'];
-    }
-}
+require_once fullPath('scripts/set-doses-filter.php'); //Set the filters in $_SESSION
 
 $not_taken_doses = dosesController('get_filtered_doses', [
-    'filters' => array_merge($filters, [['DOS_was_taken', 0]]),
+    'filters' => array_merge($_SESSION['doses_filters'], [['DOS_was_taken', 0]]),
     'order_by' => ['DOS_due_datetime', 'ASC']
 ]);
 $taken_doses = dosesController('get_filtered_doses', [
-    'filters' => array_merge($filters, [['DOS_was_taken', 1]]),
+    'filters' => array_merge($_SESSION['doses_filters'], [['DOS_was_taken', 1]]),
     'order_by' => ['DOS_taken_datetime', 'DESC']
 ]);
 $medicines = medicinesController('get_all_medicines');
@@ -62,20 +46,20 @@ $peopleInCare = peopleInCareController('get_all_people_in_care');
                             <option value="no_filter">
                                 Sem Filtros
                             </option>
-                            <option value="person_in_care" <?= $selectedFilter == 'person_in_care' ? 'selected' : '' ?>>
+                            <option value="person_in_care" <?= $_SESSION['doses_selected_filter'] == 'person_in_care' ? 'selected' : '' ?>>
                                 Pessoa sob Cuidado
                             </option>
-                            <option value="medicine" <?= $selectedFilter == 'medicine' ? 'selected' : '' ?>>
+                            <option value="medicine" <?= $_SESSION['doses_selected_filter'] == 'medicine' ? 'selected' : '' ?>>
                                 Medicamento
                             </option>
-                            <option value="due_date" <?= $selectedFilter == 'due_date' ? 'selected' : '' ?>>
+                            <option value="due_date" <?= $_SESSION['doses_selected_filter'] == 'due_date' ? 'selected' : '' ?>>
                                 Data
                             </option>
                         </select>
                         <select id="selectPeopleInCare" name="person_in_care_id" class="d-none form-control w-auto">
                             <?php foreach ($peopleInCare as $personInCare) : ?>
                                 <option value="<?= $personInCare['PIC_id'] ?>"
-                                    <?= ($selectedFilter == 'person_in_care' && $personInCare['PIC_id'] == $filteredValue) ? 'selected' : '' ?>>
+                                    <?= ($_SESSION['doses_selected_filter'] == 'person_in_care' && $personInCare['PIC_id'] == $_SESSION['filtered_value']) ? 'selected' : '' ?>>
                                     <?= $personInCare['PIC_first_name'] ?>
                                     <?= $personInCare['PIC_last_name'] ?>
                                 </option>
@@ -84,14 +68,14 @@ $peopleInCare = peopleInCareController('get_all_people_in_care');
                         <select id="selectMedicines" name="medicine_id" class="d-none form-control w-auto">
                             <?php foreach ($medicines as $medicine) : ?>
                                 <option value="<?= $medicine['MED_id'] ?>"
-                                    <?= ($selectedFilter == 'medicine' && $medicine['MED_id'] == $filteredValue) ? 'selected' : '' ?>>
+                                    <?= ($_SESSION['doses_selected_filter'] == 'medicine' && $medicine['MED_id'] == $_SESSION['filtered_value']) ? 'selected' : '' ?>>
                                     <?= $medicine['MED_name'] ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
                         <input
                             type="date" id="dtDateDose" name="due_date"
-                            value="<?= $selectedFilter == 'due_date' ? $filteredValue : '' ?>"
+                            value="<?= $_SESSION['doses_selected_filter'] == 'due_date' ? $_SESSION['filtered_value'] : '' ?>"
                             class="d-none form-control w-auto">
                         <input type="submit" id="btnFiltrar" value="Filtrar" class="btn btn-primary">
                     </div>
