@@ -17,7 +17,7 @@ function displayDosesFilter() {
         selectPeopleInCare.classList.remove("d-none");
     } else if (filterBy == "medicine") {
         selectMedicines.classList.remove("d-none");
-    } else if (filterBy == "due_datetime") {
+    } else if (filterBy == "due_date") {
         dtDateDose.classList.remove("d-none");
     }
 }

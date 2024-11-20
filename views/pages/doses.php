@@ -16,9 +16,9 @@ if (isset($_POST['selected_filter'])) {
     } elseif ($_POST['selected_filter'] == 'medicine') {
         $filters[] = ['MED_id', $_POST['medicine_id']];
         $filteredValue = $_POST['medicine_id'];
-    } elseif ($_POST['selected_filter'] == 'due_datetime') {
-        $filters[] = ['DOS_due_datetime', $_POST['due_datetime']];
-        $filteredValue = $_POST['due_datetime'];
+    } elseif ($_POST['selected_filter'] == 'due_date') {
+        $filters[] = ['DOS_due_datetime', $_POST['due_date']];
+        $filteredValue = $_POST['due_date'];
     }
 }
 
@@ -56,7 +56,7 @@ $peopleInCare = peopleInCareController('get_all_people_in_care');
                     <h1>Controle das Doses</h1>
                 </div>
                 <form action="./doses.php" method="POST">
-                    <label for="selectFilterDoses">Filtrar por</label>
+                    <label for="selectFilterDoses" class="fw-bold">Filtrar por</label>
                     <div class="d-flex gap-1">
                         <select id="selectFilterDoses" name="selected_filter" class="form-control w-auto">
                             <option value="no_filter">
@@ -68,7 +68,7 @@ $peopleInCare = peopleInCareController('get_all_people_in_care');
                             <option value="medicine" <?= $selectedFilter == 'medicine' ? 'selected' : '' ?>>
                                 Medicamento
                             </option>
-                            <option value="due_datetime" <?= $selectedFilter == 'due_datetime' ? 'selected' : '' ?>>
+                            <option value="due_date" <?= $selectedFilter == 'due_date' ? 'selected' : '' ?>>
                                 Data
                             </option>
                         </select>
@@ -90,8 +90,8 @@ $peopleInCare = peopleInCareController('get_all_people_in_care');
                             <?php endforeach; ?>
                         </select>
                         <input
-                            type="date" id="dtDateDose" name="due_datetime"
-                            value="<?= $selectedFilter == 'due_datetime' ?: $filteredValue ?>"
+                            type="date" id="dtDateDose" name="due_date"
+                            value="<?= $selectedFilter == 'due_date' ? $filteredValue : '' ?>"
                             class="d-none form-control w-auto">
                         <input type="submit" id="btnFiltrar" value="Filtrar" class="btn btn-primary">
                     </div>
@@ -101,7 +101,7 @@ $peopleInCare = peopleInCareController('get_all_people_in_care');
                 <div>
                     <h3>Próximas Doses</h3>
                 </div>
-                <?php if ($not_taken_doses > 0) : ?>
+                <?php if (count($not_taken_doses) > 0) : ?>
                     <table id="tableNotTakenDoses" class="table table-striped">
                         <thead>
                             <th>Status</th>
@@ -151,7 +151,7 @@ $peopleInCare = peopleInCareController('get_all_people_in_care');
                         </tbody>
                     </table>
                 <?php else : ?>
-                    <div id="divNoDosesToTake" class="d-flex justify-content-center align-items-cente bg-white rounded-4 py-5">
+                    <div id="divNoDosesToTake" class="d-flex justify-content-center align-items-center bg-white rounded-4 py-5">
                         <span class="fs-4">Nenhuma próxima dose encontrada</span>
                     </div>
                 <?php endif; ?>

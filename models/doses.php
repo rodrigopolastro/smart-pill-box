@@ -35,7 +35,12 @@ function selectFilteredDoses($params)
         foreach ($params['filters'] as $filter) {
             $column = $filter[0];
             $value = $filter[1];
-            $sql .= ' AND ' . $column . ' = ' . $value;
+            if ($column == 'DOS_due_datetime') {
+                //'yyyy-mm-dd' is the format used by html date components
+                $sql .= " AND DATE_FORMAT(DOS_due_datetime, '%Y-%m-%d')" .  " = " . " '$value' ";
+            } else {
+                $sql .= ' AND ' . $column . ' = ' . $value;
+            }
         }
     }
     if (!is_null($params['filters'])) {
