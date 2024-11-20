@@ -75,7 +75,9 @@ $peopleInCare = peopleInCareController('get_all_people_in_care');
                         </select>
                         <input
                             type="date" id="dtDateDose" name="due_date"
-                            value="<?= $_SESSION['doses_selected_filter'] == 'due_date' ? $_SESSION['filtered_value'] : '' ?>"
+                            value="<?= $_SESSION['doses_selected_filter'] == 'due_date'
+                                        ? $_SESSION['filtered_value']
+                                        : date_format(date_create('now'), 'Y-m-d') ?>"
                             class="d-none form-control w-auto">
                         <input type="submit" id="btnFiltrar" value="Filtrar" class="btn btn-primary">
                     </div>
