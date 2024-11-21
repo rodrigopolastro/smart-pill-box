@@ -122,7 +122,8 @@ $smartPillBox = smartPillBoxesController(
                                             data-bs-toggle="modal"
                                             data-bs-target="#modalAddPillsToSlot"
                                             data-medicine-id="<?= $slot['medicineId'] ?>"
-                                            data-slot-name="<?= $slotName ?>">
+                                            data-slot-name="<?= $slotName ?>"
+                                            data-slot-quantity=<?= $slot['quantity'] ?>>
                                             Adicionar Comprimidos
                                         </button>
                                         <button type="button" class="btn btn-info"

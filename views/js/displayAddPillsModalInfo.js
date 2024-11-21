@@ -19,6 +19,8 @@ modalAddPillsToSlot.addEventListener("show.bs.modal", async (e) => {
         medicine.MED_name;
     document.getElementById("numPillsInStock").value =
         medicine.MED_quantity_pills;
+    document.getElementById("numPillsInSlot").value =
+        e.relatedTarget.dataset.slotQuantity;
     document.getElementById("numPillsAdded").max = medicine.MED_quantity_pills;
 });
 

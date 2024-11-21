@@ -50,7 +50,14 @@
                             required disabled>
                     </div>
                     <div class="mb-3">
-                        <label for="numPillsAdded" class="form-label">Comprimidos Adicionada</label>
+                        <label for="numPillsInSlot" class="form-label">Comprimidos no Compartimento</label>
+                        <input
+                            type="number" id="numPillsInSlot"
+                            name="" class="form-control"
+                            required disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label for="numPillsAdded" class="form-label">Comprimidos a Serem Adicionados</label>
                         <input
                             type="number" id="numPillsAdded"
                             name="pills_added_to_slot" class="form-control"
