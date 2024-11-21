@@ -31,7 +31,7 @@ function peopleInCareController($peopleInCareAction, $params = [])
             break;
 
         case 'get_medicine_users':
-            $medicineUsers = selectMedicineUsers($params['medicine_id']);
+            $medicineUsers = selectMedicineUsers($params['medicine_id'], $_SESSION['logged_nursing_home_id']);
             return $medicineUsers;
             break;
 

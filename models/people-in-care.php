@@ -51,7 +51,7 @@ function selectAllPeopleInCare($nursingHomeId)
     return $peopleInCare;
 }
 
-function selectMedicineUsers($medicineId)
+function selectMedicineUsers($medicineId, $nursingHomeId)
 {
     global $connection;
     $statement = $connection->prepare(
@@ -63,10 +63,12 @@ function selectMedicineUsers($medicineId)
             PIC_last_name
         FROM PEOPLE_IN_CARE
         INNER JOIN TREATMENTS ON TTM_person_in_care_id = PIC_id
-                             AND TTM_medicine_id = :medicine_id"
+                             AND TTM_medicine_id = :medicine_id
+        WHERE PIC_nursing_home_id = :nursing_home_id"
     );
 
     $statement->bindValue('medicine_id', $medicineId);
+    $statement->bindValue('nursing_home_id', $nursingHomeId);
     $statement->execute();
 
     $medicineUsers = $statement->fetchAll(PDO::FETCH_ASSOC);

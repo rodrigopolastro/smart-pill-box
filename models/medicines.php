@@ -87,7 +87,7 @@ function insertMedicine($medicine)
     $statement->execute();
 }
 
-function selectPersonUnusedMedicines($personInCareId)
+function selectPersonUnusedMedicines($personInCareId, $nursingHomeId)
 {
     global $connection;
     $statement = $connection->prepare(
@@ -99,10 +99,12 @@ function selectPersonUnusedMedicines($personInCareId)
         FROM MEDICINES
         LEFT JOIN TREATMENTS ON TTM_medicine_id = MED_id
                             AND TTM_person_in_care_id = :person_in_care_id
-        WHERE TTM_medicine_id IS NULL"
+        WHERE TTM_medicine_id IS NULL
+          AND MED_nursing_home_id = :nursing_home_id"
     );
 
     $statement->bindValue(':person_in_care_id', $personInCareId);
+    $statement->bindValue(':nursing_home_id', $nursingHomeId);
     $statement->execute();
 
     $personUnusedMedicines = $statement->fetchAll(PDO::FETCH_ASSOC);
