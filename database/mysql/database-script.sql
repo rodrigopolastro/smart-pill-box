@@ -40,7 +40,7 @@ CREATE TABLE MEDICINES (
     MED_quantity_pills INTEGER NOT NULL,
     MED_price FLOAT,
 
-    CONSTRAINT CHK_MEDICINES_quantity_pills CHECK (MED_quantity_pills > 0),
+    CONSTRAINT CHK_MEDICINES_quantity_pills CHECK (MED_quantity_pills >= 0),
     CONSTRAINT FK_NURSING_HOMES_MEDICINES
         FOREIGN KEY (MED_nursing_home_id)
         REFERENCES NURSING_HOMES (NSH_id)
