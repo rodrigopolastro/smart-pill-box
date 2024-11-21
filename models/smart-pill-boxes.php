@@ -83,3 +83,16 @@ function countMedicinesPillsInBoxes($params)
     $medicinesPillsInBoxes = array_column($results, 'pillsInBoxes', '_id');
     return $medicinesPillsInBoxes;
 }
+
+function addPillsToSlot($params)
+{
+    $filter = ['personInCareId' => $params['person_in_care_id']];
+    $slot = 'slots.' . $params['slot_name'];
+
+    $update = [
+        '$inc' => ["slots.A.quantity" => $params['pills_added_to_slot']]
+    ];
+
+    global $smartPillBoxes;
+    $smartPillBoxes->updateOne($filter, $update);
+}

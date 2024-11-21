@@ -1,6 +1,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/smart-pill-box/helpers/full-path.php';
 require_once fullPath('models/medicines.php');
+require_once fullPath('controllers/smart-pill-boxes.php');
 
 if (!isset($_SESSION)) {
     session_start();
@@ -52,6 +53,12 @@ function medicinesController($medicinesAction, $params = [])
 
         case 'remove_pills_from_stock':
             removePillsFromStock($params['medicine_id'], $params['pills_added_to_slot']);
+            smartPillBoxesController('add_pills_to_slot', [
+                'person_in_care_id' => $params['person_in_care_id'],
+                'slot_name' => $params['slot_name'],
+                'pills_added_to_slot' => $params['pills_added_to_slot']
+            ]);
+            header('Location: ' . $params['redirect_url'] . '?id=' . $params['person_in_care_id']);
             break;
 
         default:

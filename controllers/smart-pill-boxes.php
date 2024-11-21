@@ -49,6 +49,14 @@ function smartPillBoxesController($smartPillBoxesAction, $params = [])
             return $medicinesPillsInBoxes;
             break;
 
+        case 'add_pills_to_slot':
+            addPillsToSlot([
+                'person_in_care_id' => $params['person_in_care_id'],
+                'slot_name' => $params['slot_name'],
+                'pills_added_to_slot' => intval($params['pills_added_to_slot'])
+            ]);
+            break;
+
         default:
             return [
                 'sucess' => false,
