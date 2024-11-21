@@ -44,8 +44,8 @@ $medicinesPillsInBoxes = smartPillBoxesController('count_medicines_pills_in_boxe
                     <thead>
                         <th>Nome do Medicamento</th>
                         <th>Descrição</th>
-                        <th>Em Estoque</th>
                         <th>Comprimidos Necessários</th>
+                        <th>Comprimidos em Estoque</th>
                         <th>Comprimidos nas Caixas</th>
                         <th>Utilizado por</th>
                         <th>Preço</th>
@@ -55,6 +55,9 @@ $medicinesPillsInBoxes = smartPillBoxesController('count_medicines_pills_in_boxe
                             <tr>
                                 <td><?= $medicine['MED_name'] ?></td>
                                 <td><?= $medicine['MED_description'] ?></td>
+                                <td>
+                                    <?= $medicine['total_required_pills'] ?>
+                                </td>
                                 <td>
                                     <?php $balance = $medicine['MED_quantity_pills'] - $medicine['total_required_pills'] ?>
                                     <?php if ($balance >= 0) : ?>
@@ -70,21 +73,25 @@ $medicinesPillsInBoxes = smartPillBoxesController('count_medicines_pills_in_boxe
                                     <?php endif; ?>
                                 </td>
                                 <td>
-                                    <?php $balance = $medicine['total_required_pills'] - $medicinesPillsInBoxes[$medicine['MED_id']] ?>
+                                    <?php
+                                    if (isset($medicinesPillsInBoxes[$medicine['MED_id']])) {
+                                        $pillsInBoxes = $medicinesPillsInBoxes[$medicine['MED_id']];
+                                    } else {
+                                        $pillsInBoxes = 0;
+                                    }
+                                    ?>
+                                    <?php $pillsInBoxesBalance = $pillsInBoxes - $medicine['total_required_pills'] ?>
                                     <?php if ($balance >= 0) : ?>
-                                        <?= $medicine['total_required_pills'] ?>
+                                        <?= $pillsInBoxes ?>
                                         <span class="text-success fw-bold">
-                                            <?= '(+' . $balance . ')' ?>
+                                            <?= '(+' . $pillsInBoxesBalance . ')' ?>
                                         </span>
                                     <?php else : ?>
-                                        <?= $medicine['total_required_pills'] ?>
+                                        <?= $pillsInBoxes ?>
                                         <span class="text-danger fw-bold">
-                                            <?= '(' . $balance . ')' ?>
+                                            <?= '(' . $pillsInBoxesBalance . ')' ?>
                                         </span>
                                     <?php endif; ?>
-                                </td>
-                                <td>
-                                    <?= $medicinesPillsInBoxes[$medicine['MED_id']] ?>
                                 </td>
                                 <?php if ($medicine['quantity_users'] > 0) : ?>
                                     <td>
