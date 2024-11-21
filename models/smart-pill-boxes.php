@@ -87,10 +87,10 @@ function countMedicinesPillsInBoxes($params)
 function addPillsToSlot($params)
 {
     $filter = ['personInCareId' => $params['person_in_care_id']];
-    $slot = 'slots.' . $params['slot_name'];
+    $slotQuantityField = 'slots.' . $params['slot_name'] . '.quantity';
 
     $update = [
-        '$inc' => ["slots.A.quantity" => $params['pills_added_to_slot']]
+        '$inc' => [$slotQuantityField => $params['pills_added_to_slot']]
     ];
 
     global $smartPillBoxes;
