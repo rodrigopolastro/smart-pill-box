@@ -35,32 +35,14 @@ function dosesController($dosesAction, $params = [])
             ]);
             break;
 
-            // case 'take_dose':
-            //     $date = new DateTime('now', new DateTimeZone('America/Sao_Paulo'));
-            //     try {
-            //         takeDose([
-            //             'dose_id' => $_POST['dose_id'],
-            //             'taken_date' => $date->format('Y-m-d'),
-            //             'taken_time' => $date->format('H:i:00'),
-            //         ]);
-            //         echo json_encode(['success' => true]);
-            //     } catch (PDOException $exception) {
-            //         echo json_encode(['success' => false, 'exception' => $exception->getMessage()]);
-            //     }
-            //     break;
+        case 'take_dose':
+            takeDose($params['dose_id']);
+            break;
 
-            // case 'set_dose_not_taken':
-            //     try {
-            //         setDoseNotTaken([
-            //             'dose_id' => $_POST['dose_id'],
-            //             'taken_date' => NULL,
-            //             'taken_time' => NULL,
-            //         ]);
-            //         echo json_encode(['success' => true]);
-            //     } catch (PDOException $exception) {
-            //         echo json_encode(['success' => false, 'exception' => $exception->getMessage()]);
-            //     }
-            //     break;
+        case 'get_person_next_dose':
+            $personNextDose = getNextPersonDose($params['person_in_care_id']);
+            return $personNextDose;
+            break;
 
         default:
             return [

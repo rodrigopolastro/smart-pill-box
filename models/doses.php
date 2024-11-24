@@ -124,36 +124,37 @@ function insertDose($dose)
     return $connection->lastInsertId();
 }
 
-function takeDose($dose)
+function takeDose($doseId)
 {
     global $connection;
     $statement = $connection->prepare(
-        "UPDATE doses SET 
-        was_taken = TRUE, 
-        taken_date = :taken_date,
-        taken_time = :taken_time
-      WHERE dose_id = :dose_id"
+        "UPDATE DOSES SET 
+        DOS_was_taken = TRUE, 
+        DOS_taken_datetime = CURRENT_TIMESTAMP()
+      WHERE DOS_id = :dose_id"
     );
 
-    $statement->bindValue(':dose_id', $dose['dose_id']);
-    $statement->bindValue(':taken_date', $dose['taken_date']);
-    $statement->bindValue(':taken_time', $dose['taken_time']);
+    $statement->bindValue(':dose_id', $doseId);
     $statement->execute();
 }
 
-function setDoseNotTaken($dose)
+function getNextPersonDose($personInCareId)
 {
     global $connection;
     $statement = $connection->prepare(
-        "UPDATE doses SET 
-        was_taken = FALSE, 
-        taken_date = :taken_date,
-        taken_time = :taken_time
-      WHERE dose_id = :dose_id"
+        "SELECT 
+            DOS_id, 
+            DOS_due_datetime 
+        FROM DOSES
+        INNER JOIN TREATMENTS ON TTM_id = DOS_treatment_id
+                             AND TTM_person_in_care_id = :person_in_care_id
+        WHERE DOS_due_datetime > CURRENT_TIMESTAMP()
+        ORDER BY DOS_due_datetime ASC LIMIT 1"
     );
 
-    $statement->bindValue(':dose_id', $dose['dose_id']);
-    $statement->bindValue(':taken_date', $dose['taken_date']);
-    $statement->bindValue(':taken_time', $dose['taken_time']);
+    $statement->bindValue(':person_in_care_id', $personInCareId);
     $statement->execute();
+
+    $personNextDose = $statement->fetch(PDO::FETCH_ASSOC);
+    return $personNextDose;
 }
