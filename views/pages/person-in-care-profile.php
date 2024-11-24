@@ -101,7 +101,7 @@ $smartPillBox = smartPillBoxesController(
                                     ?>
                                     <div class="text-center">
                                         <span><?= $medicine['MED_name'] ?></span>
-                                        <span> - <?= $slot['quantity'] ?> comprimidos</span>
+                                        <span> - <?= $slot['quantity'] ?> <?= $slot['quantity'] == 1 ? 'comprimido' : 'comprimidos' ?></span>
                                     </div>
                                     <div class="text-center">
                                         <span>

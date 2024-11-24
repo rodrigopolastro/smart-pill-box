@@ -3,7 +3,7 @@ const modalAddPillsToSlot = document.getElementById("modalAddPillsToSlot");
 modalAddPillsToSlot.addEventListener("show.bs.modal", async (e) => {
     let slotName = e.relatedTarget.dataset.slotName;
     document.getElementById("spanAddPillsSlotName").textContent = slotName;
-    document.getElementById("hiddenAddPillSlotName").textContent = slotName;
+    document.getElementById("hiddenAddPillSlotName").value = slotName;
 
     let personInCareId = document.getElementById(
         "hiddenAddPillsPersonInCareId"

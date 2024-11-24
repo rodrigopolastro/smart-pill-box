@@ -24,7 +24,7 @@ $peopleInCare = peopleInCareController('get_all_people_in_care');
     <?php
     require_once fullPath('views/components/header.php');
     ?>
-    <main class="">
+    <main class="" style="height: 80%">
         <div class="container">
             <div class="py-5 d-flex flex-wrap">
                 <div class="d-flex justify-content-center align-items-center w-25">

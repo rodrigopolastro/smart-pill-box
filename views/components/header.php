@@ -2,12 +2,21 @@
     <div class="container">
         <div class="d-flex justify-content-between">
             <div class="">
-                <h3>Sistema de Monitoramento Remoto de Saúde</h3>
+                <h3>Smart Pill Box</h3>
             </div>
             <div class="">
                 <ul class="nav me-lg-auto mb-2 justify-content-center mb-md-0">
                     <li class="me-4">
-                        <a href="./overview.php" class="btn btn-primary px-3 text-white">Overview</a>
+                        <a href="./overview.php" class="btn btn-primary px-3 text-white">Início</a>
+                    </li>
+                    <li class="me-4">
+                        <a href="./people-in-care.php" class="btn btn-primary px-3 text-white">Pessoas Sob Cuidado</a>
+                    </li>
+                    <li class="me-4">
+                        <a href="./medicines.php" class="btn btn-primary px-3 text-white">Medicamentos</a>
+                    </li>
+                    <li class="me-4">
+                        <a href="./doses.php" class="btn btn-primary px-3 text-white">Doses</a>
                     </li>
                 </ul>
             </div>
