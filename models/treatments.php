@@ -17,16 +17,16 @@ function selectTreatment($treatmentId)
             TTM_total_usage_days,
             ( 
                 SELECT COUNT(1) FROM DOSES 
-                WHERE DOS_treatment_id = 1 
+                WHERE DOS_treatment_id = :treatment_id 
                 AND DOS_was_taken IS TRUE
             ) AS 'taken_doses',
             ( 
                 SELECT COUNT(1) FROM DOSES 
-                WHERE DOS_treatment_id = 1
+                WHERE DOS_treatment_id = :treatment_id
             ) AS 'total_doses',
             ( 
                 SELECT DOS_due_datetime FROM DOSES
-                WHERE DOS_treatment_id = 1
+                WHERE DOS_treatment_id = :treatment_id
                 ORDER BY DOS_due_datetime DESC LIMIT 1
             ) AS 'last_dose_date'
         FROM TREATMENTS 
