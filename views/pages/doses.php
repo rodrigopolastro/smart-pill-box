@@ -137,7 +137,7 @@ $peopleInCare = peopleInCareController('get_all_people_in_care');
                                         </span>
                                     </td>
                                     <td>
-                                        <?= $not_taken_dose['treatment_taken_doses'] . '/' . $not_taken_dose['treatment_total_doses'] ?>
+                                        <?= $not_taken_dose['DOS_number'] . '/' . $not_taken_dose['treatment_total_doses'] ?>
                                     </td>
                                 </tr>
                             <?php endforeach ?>

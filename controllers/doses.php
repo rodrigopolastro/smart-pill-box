@@ -31,7 +31,8 @@ function dosesController($dosesAction, $params = [])
         case 'create_dose':
             insertDose([
                 'treatment_id' => $params['treatment_id'],
-                'due_datetime' => $params['due_datetime']
+                'due_datetime' => $params['due_datetime'],
+                'dose_number' => $params['dose_number']
             ]);
             break;
 

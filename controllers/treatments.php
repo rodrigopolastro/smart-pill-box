@@ -55,10 +55,11 @@ function treatmentsController($treatmentsAction, $params = [])
 
             // what we call "today's midnight" actually belongs to "tomorrow"
             $daysIncrement = $params['doses_times'][0] == '00:00' ? 1 : 0;
-
+            $dosesCounter = 0;
             for ($daysIncrement; $daysIncrement < $params['total_usage_days']; $daysIncrement++) {
                 $doseDueDate = $treatmentStartDate->add(new DateInterval('P' . $daysIncrement . 'D'));
                 for ($doseTimeIndex = 0; $doseTimeIndex < $params['doses_per_day']; $doseTimeIndex++) {
+                    $dosesCounter += 1;
                     $doseDueTime = $params['doses_times'][$doseTimeIndex];
                     $doseHours = explode(':', $doseDueTime)[0];
                     $firstDoseHours = explode(':', $params['doses_times'][0])[0];
@@ -70,7 +71,8 @@ function treatmentsController($treatmentsAction, $params = [])
 
                     dosesController('create_dose', [
                         'treatment_id' => $newTreatmentId,
-                        'due_datetime' => $doseDueDate->format('Y-m-d') . ' ' . $doseDueTime
+                        'due_datetime' => $doseDueDate->format('Y-m-d') . ' ' . $doseDueTime,
+                        'dose_number' => $dosesCounter
                     ]);
                 }
             }

@@ -13,18 +13,15 @@ function selectFilteredDoses($params)
             PIC_id,
             PIC_first_name,
             PIC_last_name,
+            DOS_number,
             DOS_due_datetime,
             DOS_was_taken,
             DOS_taken_datetime,
+            TTM_id,
             TTM_pills_per_dose,
             ( 
                 SELECT COUNT(1) FROM DOSES 
-                WHERE DOS_treatment_id = 1 
-                AND DOS_was_taken IS TRUE
-            ) AS 'treatment_taken_doses',
-            ( 
-                SELECT COUNT(1) FROM DOSES 
-                WHERE DOS_treatment_id = 1
+                WHERE DOS_treatment_id = TTM_id
             ) AS 'treatment_total_doses'
         FROM DOSES
         INNER JOIN TREATMENTS ON TTM_id = DOS_treatment_id
@@ -110,15 +107,18 @@ function insertDose($dose)
     $statement = $connection->prepare(
         "INSERT INTO DOSES (
             DOS_treatment_id,
-            DOS_due_datetime
+            DOS_due_datetime,
+            DOS_number
         ) VALUES (
             :treatment_id,
-            :due_datetime
+            :due_datetime,
+            :dose_number
         )"
     );
 
     $statement->bindValue(':treatment_id', $dose['treatment_id']);
     $statement->bindValue(':due_datetime', $dose['due_datetime']);
+    $statement->bindValue(':dose_number', $dose['dose_number']);
     $statement->execute();
 
     return $connection->lastInsertId();
