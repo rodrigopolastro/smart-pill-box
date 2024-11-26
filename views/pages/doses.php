@@ -100,7 +100,7 @@ $peopleInCare = peopleInCareController('get_all_people_in_care');
                         <tbody>
                             <?php foreach ($not_taken_doses as $not_taken_dose) : ?>
                                 <?php
-                                $current_time = date_create('now');
+                                $current_time = date_create('now', new DateTimeZone('America/Sao_Paulo'));
                                 $dose_due_datetime = date_create($not_taken_dose['DOS_due_datetime']);
                                 ?>
                                 <tr>
