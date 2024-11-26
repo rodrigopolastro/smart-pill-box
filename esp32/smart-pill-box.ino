@@ -14,6 +14,7 @@ const char* WIFI_PASSWORD = "Cla44885735";
 const char* SERVER_URL = "http://192.168.0.90/smart-pill-box";
 const int PERSON_IN_CARE_ID = 1;
 const int QUERY_DELAY_SECS = 10;
+const int NUMBER_OF_SLOTS = 6;
   
 WebServer server(80);
 
@@ -28,27 +29,45 @@ bool isAlarmOn = false;
 
 int nextDoseId, nextDoseDueTimestamp, currentTime;
 
+const char* SLOTS_NAMES[NUMBER_OF_SLOTS] = {
+    "A", "B", "C", "D", "E", "F"
+};
+int slotNameToNum(const char* slot_name){
+    for(int i=0; i<NUMBER_OF_SLOTS; i++){
+        if (strcmp(SLOTS_NAMES[i], slot_name) == 0) {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+int slotsTreatmentsIds[6] = {0, 0, 0, 0, 0, 0};
+
 void setup() {
-  Serial.begin(115200);
+    Serial.begin(115200);
 
-  pinMode(SWITCH_A, INPUT_PULLDOWN);
-  pinMode(LED_A, OUTPUT);
-  pinMode(BUZZER, OUTPUT);
-  
-  digitalWrite(LED_A, LOW);
+    pinMode(SWITCH_A, INPUT_PULLDOWN);
+    pinMode(LED_A, OUTPUT);
+    pinMode(BUZZER, OUTPUT);
+    
+    digitalWrite(LED_A, LOW);
 
-  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-  Serial.print("Conectando-se à rede WiFi");
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-  Serial.println("\nConectado!");
-  Serial.print("Endereço IP ESP32: ");
-  Serial.println(WiFi.localIP());
+    WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+    Serial.print("Conectando-se à rede WiFi");
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(500);
+        Serial.print(".");
+    }
+    Serial.println("\nConectado!");
+    Serial.print("Endereço IP ESP32: ");
+    Serial.println(WiFi.localIP());
 
-  server.begin();
-  timeClient.begin();
+    server.on("/addTreatmentToSlot", addTreatmentToSlot);
+    server.begin();
+    timeClient.begin();
+
+//   getSlotsTreatments();
 }
 
 void loop() {
@@ -83,12 +102,12 @@ void loop() {
     }
 }
 
-void getNextDoseTime(int person_in_care_id) {
+void getTreatmentNextDose(int treatment_id) {
     if (WiFi.status() == WL_CONNECTED) {
         HTTPClient http;
         http.begin(String(SERVER_URL) + "/controllers/doses.php");
         http.addHeader("Content-Type", "application/json");
-        String jsonBody = "{\"doses_action\":\"get_person_next_dose\", \"params\": {\"person_in_care_id\": " + String(person_in_care_id) + "} }";
+        String jsonBody = "{\"doses_action\":\"get_treatment_next_dose\", \"params\": {\"treatment_id\": " + String(treatment_id) + "} }";
 
         int httpCode = http.POST(jsonBody);
 
@@ -96,12 +115,12 @@ void getNextDoseTime(int person_in_care_id) {
             String payload = http.getString();
             // Serial.println("Response from server: " + payload);
 
-            DynamicJsonDocument doc(1024);
+            JsonDocument doc;
             DeserializationError error = deserializeJson(doc, payload);
             
             if (error) {
-            Serial.println("Failed to parse JSON");
-            return;
+                Serial.println("Failed to parse JSON");
+                return;
             }
 
             nextDoseId = doc["DOS_id"];
@@ -121,15 +140,46 @@ void getNextDoseTime(int person_in_care_id) {
 }
 
 void takeDose(int doseId) {
-  if (WiFi.status() == WL_CONNECTED) {
-    HTTPClient http;
-    http.begin(String(SERVER_URL) + "/controllers/doses.php");
-    http.addHeader("Content-Type", "application/json");
-    String jsonBody = "{\"doses_action\":\"take_dose\",\"params\":{\"dose_id\": \"" + String(doseId) + "\" }}";
+    if (WiFi.status() == WL_CONNECTED) {
+        HTTPClient http;
+        http.begin(String(SERVER_URL) + "/controllers/doses.php");
+        http.addHeader("Content-Type", "application/json");
+        String jsonBody = "{\"doses_action\":\"take_dose\",\"params\":{\"dose_id\": \"" + String(doseId) + "\" }}";
 
-    int httpCode = http.POST(jsonBody);
-    http.end();
-  } else {
-    Serial.println("Not connected to WiFi");
-  }
+        int httpCode = http.POST(jsonBody);
+        http.end();
+    } else {
+        Serial.println("Not connected to WiFi");
+    }
 }
+
+void addTreatmentToSlot() {
+    server.sendHeader("Access-Control-Allow-Origin", "*");
+    server.sendHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+    server.sendHeader("Access-Control-Allow-Headers", "Content-Type");
+    if (server.method() == HTTP_OPTIONS) {
+        server.send(200, "text/plain", "");
+        return;
+    }
+
+    String requestBody = server.arg("plain");
+    Serial.println("Request: " + requestBody);
+
+    JsonDocument requestJson;
+    DeserializationError error = deserializeJson(requestJson, requestBody);
+
+    if (error) {
+        server.send(400, "application/json", "{\"status\":\"Invalid JSON\"}");
+        Serial.println("Failed to parse JSON");
+        return;
+    }
+
+    int treatmentId = requestJson["treatmentId"];
+    const char* slotName = requestJson["slotName"];
+    slotsTreatmentsIds[slotNameToNum(slotName)] = treatmentId;
+
+    Serial.println("Novo Tratamento: Id " + String(treatmentId) + " no compartimento " + String(slotName));
+    server.send(200, "application/json", "{\"status\":\"Received successfully\"}");
+}
+
+// void getSlotsTreatments(){}

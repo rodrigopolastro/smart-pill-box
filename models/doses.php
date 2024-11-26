@@ -138,7 +138,7 @@ function takeDose($doseId)
     $statement->execute();
 }
 
-function getNextPersonDose($personInCareId)
+function getTreatmentNextDose($treatmentId)
 {
     global $connection;
     $statement = $connection->prepare(
@@ -147,18 +147,17 @@ function getNextPersonDose($personInCareId)
             DOS_due_datetime,
             UNIX_TIMESTAMP(DOS_due_datetime) AS due_date_timestamp
         FROM DOSES
-        INNER JOIN TREATMENTS ON TTM_id = DOS_treatment_id
-                             AND TTM_person_in_care_id = :person_in_care_id
-        WHERE DOS_due_datetime > CURRENT_TIMESTAMP()
+        WHERE DOS_treatment_id = :treatment_id
+          AND DOS_due_datetime > CURRENT_TIMESTAMP()
         ORDER BY DOS_due_datetime ASC LIMIT 1"
     );
 
-    $statement->bindValue(':person_in_care_id', $personInCareId);
+    $statement->bindValue(':treatment_id', $treatmentId);
     $statement->execute();
-    $personNextDose = $statement->fetch(PDO::FETCH_ASSOC);
+    $treatmentNextDose = $statement->fetch(PDO::FETCH_ASSOC);
 
     if ($statement->rowCount() > 0) {
-        return $personNextDose;
+        return $treatmentNextDose;
     } else {
         return [
             'DOS_id' => 0,

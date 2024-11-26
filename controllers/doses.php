@@ -40,9 +40,9 @@ function dosesController($dosesAction, $params = [])
             takeDose($params['dose_id']);
             break;
 
-        case 'get_person_next_dose':
-            $personNextDose = getNextPersonDose($params['person_in_care_id']);
-            return $personNextDose;
+        case 'get_treatment_next_dose':
+            $treatmentNextDose = getTreatmentNextDose($params['treatment_id']);
+            return $treatmentNextDose;
             break;
 
         default:
