@@ -57,7 +57,8 @@ void loop() {
     
     if(isAlarmOn){
         if(digitalRead(SWITCH_A)){
-            Serial.println("Alarme A desligado.");
+            takeDose(nextDoseId);
+            Serial.println("Dose do compartimento A tomada.");
             digitalWrite(LED_A, LOW);
             digitalWrite(BUZZER, LOW);
             isAlarmOn = false;
@@ -117,4 +118,18 @@ void getNextDoseTime(int person_in_care_id) {
     } else {
         Serial.println("Not connected to WiFi");
     }
+}
+
+void takeDose(int doseId) {
+  if (WiFi.status() == WL_CONNECTED) {
+    HTTPClient http;
+    http.begin(String(SERVER_URL) + "/controllers/doses.php");
+    http.addHeader("Content-Type", "application/json");
+    String jsonBody = "{\"doses_action\":\"take_dose\",\"params\":{\"dose_id\": \"" + String(doseId) + "\" }}";
+
+    int httpCode = http.POST(jsonBody);
+    http.end();
+  } else {
+    Serial.println("Not connected to WiFi");
+  }
 }
