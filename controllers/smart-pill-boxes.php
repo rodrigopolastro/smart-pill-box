@@ -1,6 +1,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/smart-pill-box/helpers/full-path.php';
 require_once fullPath('models/smart-pill-boxes.php');
+require_once fullPath('scripts/add-treatment-to-esp-slot.php');
 
 if (!isset($_SESSION)) {
     session_start();
@@ -39,6 +40,11 @@ function smartPillBoxesController($smartPillBoxesAction, $params = [])
                 'slot_name' => $params['slot_name'],
                 'medicine_id' => $params['medicine_id'],
                 'quantity' => $params['quantity']
+            ]);
+
+            addTreatmentToEspSlot([
+                'treatment_id' => intval($params['treatment_id']),
+                'slot_name' => $params['slot_name']
             ]);
             break;
 
