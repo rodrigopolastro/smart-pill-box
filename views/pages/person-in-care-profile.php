@@ -15,6 +15,14 @@ $smartPillBox = smartPillBoxesController(
     'get_smart_pill_box',
     ['person_in_care_id' => $_GET['id']]
 );
+$slotsColors = [
+    'blue',
+    'red',
+    'white',
+    'green',
+    'magenta',
+    'yellow'
+];
 ?>
 
 <!DOCTYPE html>
@@ -74,9 +82,13 @@ $smartPillBox = smartPillBoxesController(
             </div>
             <div class="w-100 d-flex justify-content-center">
                 <div id="smartPillBoxSLots" class="py-3 w-75 d-flex flex-wrap">
+                    <?php $slotsCounter = 0; ?>
                     <?php foreach ($smartPillBox['slots'] as $slotName => $slot): ?>
                         <div class="px-2 pb-2 w-50">
-                            <div class="bg-white rounded-4 h-100 py-5">
+                            <div class="bg-white rounded-4 h-100 pb-5">
+                                <div class="d-flex justify-content-start p-3">
+                                    <div style="background-color: <?= $slotsColors[$slotsCounter] ?>; width:40px; height:40px; border-radius: 100%; border: solid black 2px"></div>
+                                </div>
                                 <div class="text-center"><span>Compartimento <?= $slotName ?><span></span></div>
                                 <?php if (is_null($slot['treatmentId'])) : ?>
                                     <div class="text-center"><span>Nenhum Medicamento</span></div>
@@ -134,6 +146,7 @@ $smartPillBox = smartPillBoxesController(
                                 <?php endif; ?>
                             </div>
                         </div>
+                        <?php $slotsCounter++; ?>
                     <?php endforeach; ?>
                 </div>
             </div>
